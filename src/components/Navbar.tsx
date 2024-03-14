@@ -1,9 +1,7 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthStatus from "../security/AuthStatus";
-import { useAuth } from "../security/AuthProvider";
 
 export default function Navbar() {
-  const auth = useAuth();
   return (
     <nav>
       <ul>
@@ -11,8 +9,15 @@ export default function Navbar() {
           <NavLink to="/">Program</NavLink>
         </li>
         <li>
-          <NavLink to="/film">Kommende Film</NavLink>
+          <NavLink to="/movies">Upcoming movies</NavLink>
         </li>
+        <li>
+          <NavLink to="/genres">Genres</NavLink>
+        </li>
+        <li>
+          <NavLink to="/about">About us</NavLink>
+        </li>
+        <AuthStatus />
       </ul>
     </nav>
   );
