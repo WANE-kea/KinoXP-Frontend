@@ -1,0 +1,20 @@
+.seat {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  background-color: #ddd;
+}
+
+.reserved {
+  background-color: gray;
+}
+
+.selected {
+  background-color: green;
+}
+
+.seat-selection {
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+}

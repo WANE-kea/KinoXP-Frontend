@@ -32,13 +32,15 @@ type Movie = {
 }
 
 interface Seat {
-  id: number | null;
-  seatRow: number;
+  id: string;
+  seatRow: string;
   seatNr: number;
   available: boolean;
-  theater: Theater[];
+  theater_id: number;
   type: string;
+  isSelected?: boolean; // Optional property to track selection state
 }
+
 
 interface Show {
   id: number | null;
@@ -63,4 +65,7 @@ interface Customer {
   phone: string;
 }
 
+
+
 export type { Booking, Category, Movie, Seat, Show, Theater, Customer };
+
