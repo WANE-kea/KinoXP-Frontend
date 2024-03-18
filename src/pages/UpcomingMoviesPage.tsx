@@ -13,8 +13,10 @@ const handleTicketPurchase = (movieId: number) => {
 }
   return (
     <>
-      <h1>Upcoming Movies</h1>
-      <p>Here you will find a list of movies that will be screened in the cinema in the near future.</p>
+      <div style={{padding:"20px"}}>
+        <h1>Upcoming Movies</h1>
+        <p>Here you will find a list of movies that will be screened in the cinema in the near future.</p>
+      </div>
       <MovieGrid showMovieInfo={showMovieInfo} handleTicketPurchase={handleTicketPurchase}/>
     </>
   );

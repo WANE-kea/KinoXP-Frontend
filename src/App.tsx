@@ -10,6 +10,7 @@ import UpcomingMoviesPage from './pages/UpcomingMoviesPage';
 import SeatSelection from './components/SeatSelection'; 
 
 import { useAuth } from './security/AuthProvider';
+import MoviePage from './pages/MoviePage';
 
 export default function App() {
   const auth = useAuth();
@@ -19,10 +20,10 @@ export default function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Program />} />
+        <Route path="/" element={<ProgramPage />} />
         <Route path="/movies">
           <Route index element={<UpcomingMoviesPage />} />
-          <Route path=":id" element={<MoviePage />} />
+          <Route path=":id" element={<MoviePage/>} />
         </Route>
         <Route path="/genres" element={<GenresPage />} />
         <Route path="/about" element={<AboutUsPage />} />

@@ -1,9 +1,10 @@
 .cinema-layout {
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
-  padding: 20px;
+  margin: 55px;
+  padding: 65px;
   background: #000;
 }
 
@@ -80,6 +81,7 @@
 /* Cinema Screen */
 
 .cinema-screen-container {
+  max-width: 1000px;
   margin-bottom: 6px;
   position: relative;
   text-align: center;

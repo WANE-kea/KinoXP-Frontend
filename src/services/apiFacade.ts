@@ -134,7 +134,7 @@ async function getAllMovies(): Promise<interfaces.Movie[]> {
   }
 }
 
-async function getMovieById(id: number | string): Promise<interfaces.Movie> {
+async function getMovieById(id: number): Promise<interfaces.Movie> {
   try {
     const response = await fetch(MOVIE_URL + "/" + id).then(handleHttpErrors);
     return response;
