@@ -18,6 +18,19 @@ interface Customer {
     country: string;   
     phone: string; 
 }  
+
+type Movie = {
+    id: number;
+    title: string;
+    description: string;
+    posterBase64: string | undefined;
+    trailerUrl: string | null;
+    posterUrl: string | undefined;
+    ageLimit: number;
+    duration: number;
+    categories: string[];    
+}
+
 interface Seat {
   id: number | null;
   seatRow: number;
@@ -26,6 +39,7 @@ interface Seat {
   theater: Theater[];
   type: string;
 }
+
 interface Show {
   id: number | null;
   startTime: Date;

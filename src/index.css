@@ -66,3 +66,41 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.movie-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 1em;
+  padding: 1em;
+  margin: 1em;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #888888;
+  transition: box-shadow 300ms;
+}
+
+.movie-card{
+  padding: 1em;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #888888;
+  transition: box-shadow 300ms;
+}
+
+.movie-card:hover{
+    transform: scale(1.025);
+    transition: transform 0.5s;
+}
+
+
+.movie-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  margin: 1em;
+}
+
+#root{
+width: 100%;
+}

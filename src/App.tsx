@@ -6,9 +6,9 @@ import Login from "./pages/LoginPage";
 import Logout from "./pages/LogoutPage";
 import NotFound from "./pages/NotFoundPage";
 import Program from "./pages/ProgramPage";
-import Movies from "./pages/UpcomingMoviesPage";
-
 import { useAuth } from "./security/AuthProvider";
+import UpcomingMoviesPage from "./pages/UpcomingMoviesPage";
+import MoviePage from "./pages/MoviePage";
 
 export default function App() {
   const auth = useAuth();
@@ -18,7 +18,10 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Program />} />
-        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies">
+          <Route index element={<UpcomingMoviesPage />} />
+          <Route path=":id" element={<MoviePage />} />
+        </Route>
         <Route path="/genres" element={<Genres />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/login" element={<Login />} />
