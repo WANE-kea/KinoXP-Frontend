@@ -125,9 +125,8 @@ async function deleteCategory(id: number): Promise<interfaces.Category> {
 
 async function getAllMovies(): Promise<interfaces.Movie[]> {
   try {
-    const response = await fetch(MOVIE_URL).then(handleHttpErrors);
-    const data = await response.json();
-    movies = data;
+    const response = await fetch(MOVIE_URL).then(handleHttpErrors);   
+    movies = response;
     return movies;
   } catch (error) {
     console.error("Error fetching movies:", error);
@@ -138,8 +137,7 @@ async function getAllMovies(): Promise<interfaces.Movie[]> {
 async function getMovieById(id: number): Promise<interfaces.Movie> {
   try {
     const response = await fetch(MOVIE_URL + "/" + id).then(handleHttpErrors);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error fetching movie:", error);
     throw error;
