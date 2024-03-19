@@ -145,7 +145,7 @@ async function getMovieById(id: number): Promise<interfaces.Movie> {
 async function handleMovie(movie: interfaces.Movie){
   try {
     const method = movie.id ? "PUT" : "POST";
-    const options = makeOptions(method, movie, false);
+    const options = makeOptions(method, movie, true);
     const url = movie.id ? `${MOVIE_URL}/${movie.id}` : MOVIE_URL;
     const response = await fetch(url, options);
     const data = await response.json();
