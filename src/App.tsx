@@ -11,6 +11,8 @@ import SeatSelection from './components/SeatSelection';
 
 import { useAuth } from './security/AuthProvider';
 import MoviePage from './pages/MoviePage';
+import RequireAuth from './security/RequireAuth';
+import AdminPage from './pages/AdminPage';
 
 export default function App() {
   const auth = useAuth();
@@ -29,6 +31,11 @@ export default function App() {
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<LogoutPage />} />
+        <Route path='/admin' element={
+        <RequireAuth roles={["ADMIN"]}>
+          <AdminPage/>
+        </RequireAuth>
+        }/>
         <Route path="/seat-selection" element={<SeatSelection />} /> 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

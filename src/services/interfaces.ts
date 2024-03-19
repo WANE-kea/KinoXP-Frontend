@@ -19,16 +19,16 @@ interface Customer {
     phone: string; 
 }  
 
-type Movie = {
-    id: number;
+interface Movie {
+    id: number | null;
     title: string;
     description: string;
-    posterBase64: string | undefined;
+    posterBase64: string | null;
     trailerUrl: string | null;
-    posterUrl: string | undefined;
+    posterUrl: string | null;
     ageLimit: number;
     duration: number;
-    categories: string[];    
+    categories: Category[];    
 }
 
 interface Seat {

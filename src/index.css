@@ -115,3 +115,46 @@ button:focus-visible {
 #root{
 width: 100%;
 }
+
+.component-container {
+  flex: 3;
+  padding: 10px;
+  width: 800px;
+  text-align: left;
+  border-left: 2px solid black;
+  margin: 20px;
+}
+
+
+.header-style {
+  border-bottom: solid 2px rgb(255, 255, 255);
+  margin-bottom: 20px;
+}
+
+
+.outer-div-style {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input[type="text"], input[type="file"] {
+  width: 60%;
+  padding: 5px;
+}
+  
+
+.img-preview {
+  margin-top: 20px;
+  max-width: 200px;
+  height: auto;
+}
