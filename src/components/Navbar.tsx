@@ -1,24 +1,20 @@
 import { NavLink } from "react-router-dom";
 import AuthStatus from "../security/AuthStatus";
+import { useAuth } from "../security/AuthProvider";
 
 export default function Navbar() {
+  const auth = useAuth();
   return (
     <nav>
-      <ul>
-        <li>
           <NavLink to="/">Program</NavLink>
-        </li>
-        <li>
           <NavLink to="/movies">Upcoming movies</NavLink>
-        </li>
-        <li>
           <NavLink to="/genres">Genres</NavLink>
-        </li>
-        <li>
           <NavLink to="/about">About us</NavLink>
-        </li>
+          {auth.isLoggedInAs(["ADMIN"]) && (
+            <NavLink to="/admin">Admin</NavLink>
+          )} 
         <AuthStatus />
-      </ul>
     </nav>
+  
   );
 }

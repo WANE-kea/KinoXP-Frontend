@@ -77,8 +77,7 @@ async function deleteBooking(bookingNr: string): Promise<interfaces.Booking> {
 async function getAllCategories(): Promise<interfaces.Category[]> {
   try {
     const response = await fetch(CATEGORY_URL).then(handleHttpErrors);
-    const data = await response.json();
-    categories = data;
+    categories = response;
     return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -89,8 +88,7 @@ async function getAllCategories(): Promise<interfaces.Category[]> {
 async function getCategoryById(id: number): Promise<interfaces.Category> {
   try {
     const response = await fetch(CATEGORY_URL + "/" + id).then(handleHttpErrors);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error fetching category:", error);
     throw error;
@@ -144,7 +142,7 @@ async function getMovieById(id: number): Promise<interfaces.Movie> {
   }
 }
 
-async function handleMovie(movie: interfaces.Movie): Promise<interfaces.Movie> {
+async function handleMovie(movie: interfaces.Movie){
   try {
     const method = movie.id ? "PUT" : "POST";
     const options = makeOptions(method, movie, true);
