@@ -6,9 +6,14 @@ export default function AuthStatus() {
 
   if (!auth.isLoggedIn()) {
     return (
-      <li>
-        <NavLink to="/login">Login</NavLink>
-      </li>
+      <ul>
+        <li>
+          <NavLink to="/login">Login</NavLink>
+        </li>
+        <li>
+          <NavLink to="/signup">Sign Up</NavLink>
+        </li>
+      </ul>
     );
   } else {
     return (

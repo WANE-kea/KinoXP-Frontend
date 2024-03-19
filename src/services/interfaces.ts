@@ -36,6 +36,7 @@ interface Customer {
   middleName?: string;
   lastName: string;
   email: string;
+  password: string;
   streetAddress: string;
   streetNo: string;
   zip: string;
