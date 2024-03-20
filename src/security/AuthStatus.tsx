@@ -1,10 +1,10 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import styles from "./AuthStatus.module.css"; // Assume you have this CSS module
 
 export default function AuthStatus() {
   const auth = useAuth();
-
+  console.log("auth.isLoggedIn() = ", auth.isLoggedIn());
   if (!auth.isLoggedIn()) {
     return (
       <>
@@ -18,9 +18,9 @@ export default function AuthStatus() {
     return (
       <div className={styles.authStatus}>
         <span className={styles.username}>{auth.username}</span>
-        <Link to="/logout" className={styles.logoutLink}>
+        <div onClick={auth.signOut} className={styles.logoutLink}>
           Logout
-        </Link>
+        </div>
       </div>
     );
   }

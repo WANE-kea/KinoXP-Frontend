@@ -1,6 +1,6 @@
 import { API_URL } from "../settings";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
-import * as interfaces from "./interfaces";
+import * as interfaces from "../models/interfaces";
 const BOOKING_URL = API_URL + "/booking";
 const CATEGORY_URL = API_URL + "/categories";
 const MOVIE_URL = API_URL + "/movies";
@@ -123,7 +123,7 @@ async function deleteCategory(id: number): Promise<interfaces.Category> {
 
 async function getAllMovies(): Promise<interfaces.Movie[]> {
   try {
-    const response = await fetch(MOVIE_URL).then(handleHttpErrors);   
+    const response = await fetch(MOVIE_URL).then(handleHttpErrors);
     movies = response;
     return movies;
   } catch (error) {
@@ -142,7 +142,7 @@ async function getMovieById(id: number): Promise<interfaces.Movie> {
   }
 }
 
-async function handleMovie(movie: interfaces.Movie){
+async function handleMovie(movie: interfaces.Movie) {
   try {
     const method = movie.id ? "PUT" : "POST";
     const options = makeOptions(method, movie, true);

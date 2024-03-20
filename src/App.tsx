@@ -28,10 +28,8 @@ export default function App() {
             <Route index element={<UpcomingMoviesPage />} />
             <Route path=":id" element={<MoviePage />} />
           </Route>
-          <Route path="/genres" element={<GenresPage />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/logout" element={<LogoutPage />} />
           <Route
             path="/admin"
             element={
