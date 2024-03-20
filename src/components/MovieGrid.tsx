@@ -23,7 +23,7 @@ export default function MovieGrid({ handleTicketPurchase, showMovieInfo }) {
           <p>
             Categories:{" "}
             {movie.categories.map((category) => (
-              <span>{category.name} </span>
+              <span key={category.id + movie.id}>{category.name} </span>
             ))}
           </p>
           <button onClick={() => showMovieInfo(movie.id)}>More info</button>
