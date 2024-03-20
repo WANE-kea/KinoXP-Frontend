@@ -4,16 +4,19 @@ export interface Seat {
   seatRow: string;
   seatNr: number;
   available: boolean;
-  theater_id: number;
   type: string;
-  isSelected?: boolean; 
+  isSelected?: boolean;
+  isReserved?: boolean; 
 }
 
+
+// ShowDetails interface to include bookings
 export interface ShowDetails {
   id: number;
   startTime: string;
   endTime: string;
   movie: {
+    id: number;
     title: string;
     description: string;
     posterUrl: string;
@@ -23,4 +26,12 @@ export interface ShowDetails {
     categories: Array<{ id: number; name: string }>;
   };
   theater_id: number;
+  bookings: Array<{
+    id: string;
+    customer: {
+      id: string;
+      name: string;
+    } | null;
+    seats: Array<Seat>;
+  }>;
 }

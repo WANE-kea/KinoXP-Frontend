@@ -1,6 +1,6 @@
 import { API_URL } from "../settings";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
-import * as interfaces from "./interfaces";
+import * as interfaces from "../models/interfaces";
 const BOOKING_URL = API_URL + "/booking";
 const CATEGORY_URL = API_URL + "/categories";
 const MOVIE_URL = API_URL + "/movies";
@@ -123,7 +123,7 @@ async function deleteCategory(id: number): Promise<interfaces.Category> {
 
 async function getAllMovies(): Promise<interfaces.Movie[]> {
   try {
-    const response = await fetch(MOVIE_URL).then(handleHttpErrors);   
+    const response = await fetch(MOVIE_URL).then(handleHttpErrors);
     movies = response;
     return movies;
   } catch (error) {
@@ -142,7 +142,7 @@ async function getMovieById(id: number): Promise<interfaces.Movie> {
   }
 }
 
-async function handleMovie(movie: interfaces.Movie){
+async function handleMovie(movie: interfaces.Movie) {
   try {
     const method = movie.id ? "PUT" : "POST";
     const options = makeOptions(method, movie, true);
@@ -171,8 +171,7 @@ async function deleteMovie(id: number): Promise<interfaces.Movie> {
 async function getAllSeats(): Promise<interfaces.Seat[]> {
   try {
     const response = await fetch(SEAT_URL).then(handleHttpErrors);
-    const data = await response.json();
-    seats = data;
+    seats = response;
     return seats;
   } catch (error) {
     console.error("Error fetching seats:", error);
@@ -209,8 +208,7 @@ async function deleteSeat(id: number): Promise<interfaces.Seat> {
 async function getAllShows(): Promise<interfaces.Show[]> {
   try {
     const response = await fetch(SHOW_URL).then(handleHttpErrors);
-    const data = await response.json();
-    shows = data;
+    shows = response;
     return shows;
   } catch (error) {
     console.error("Error fetching shows:", error);
@@ -221,15 +219,14 @@ async function getAllShows(): Promise<interfaces.Show[]> {
 async function getShowById(id: number): Promise<interfaces.Show> {
   try {
     const response = await fetch(SHOW_URL + "/" + id).then(handleHttpErrors);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error fetching show:", error);
     throw error;
   }
 }
 
-async function handleShow(show: interfaces.Show): Promise<interfaces.Show> {
+async function handleShow(show: interfaces.Show) {
   try {
     const method = show.id ? "PUT" : "POST";
     const options = makeOptions(method, show, true);
@@ -258,8 +255,7 @@ async function deleteShow(id: number): Promise<interfaces.Show> {
 async function getAllTheaters(): Promise<interfaces.Theater[]> {
   try {
     const response = await fetch(THEATER_URL).then(handleHttpErrors);
-    const data = await response.json();
-    theaters = data;
+    theaters = response;
     return theaters;
   } catch (error) {
     console.error("Error fetching theaters:", error);
@@ -270,8 +266,7 @@ async function getAllTheaters(): Promise<interfaces.Theater[]> {
 async function getTheaterById(id: number): Promise<interfaces.Theater> {
   try {
     const response = await fetch(THEATER_URL + "/" + id).then(handleHttpErrors);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error fetching theater:", error);
     throw error;
