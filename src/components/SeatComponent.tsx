@@ -9,36 +9,32 @@ interface Props {
 
 const SeatComponent: React.FC<Props> = ({ seat, onSeatClick }) => {
   const handleClick = () => {
-    if (seat.available) {
+    // Allow clicking only if the seat is not reserved and available
+    if (!seat.isReserved && seat.available) {
       onSeatClick(seat.id);
     }
   };
 
-  const isSeatReserved = !seat.available;
-  const isHandicap = seat.type === "HANDICAP";
-  const isVIP = seat.type === "VIP";
-  const isSelected = seat.isSelected;
-
-  const seatStateClass = isSeatReserved
-    ? "reserved"
-    : isSelected
-    ? "selected"
-    : "available";
-  const seatTypeClass = isHandicap ? "handicap" : isVIP ? "vip" : "";
-
-  const seatClasses = `seat ${seatTypeClass} ${seatStateClass}`.trim();
+  // Determine the seat class based on its state and type
+  const seatClasses = [
+    "seat",
+    seat.isReserved ? "reserved" : "",
+    seat.isSelected ? "selected" : "",
+    seat.type === "HANDICAP" ? "handicap" : "",
+    seat.type === "VIP" ? "vip" : "",
+  ].filter(Boolean).join(" ");
 
   return (
     <button
-      disabled={isSeatReserved}
+      disabled={seat.isReserved || !seat.available}
       className={seatClasses}
       onClick={handleClick}
       data-seat-number={seat.seatNr}
     >
-      {isHandicap || isVIP ? (
+      {seat.type === "HANDICAP" || seat.type === "VIP" ? (
         <img
-          src={isHandicap ? "/public/handicap.svg" : "/public/vip.svg"}
-          alt={isHandicap ? "Handicap seat" : "VIP seat"}
+          src={`/public/${seat.type.toLowerCase()}.svg`}
+          alt={`${seat.type} seat`}
         />
       ) : (
         <span>{seat.seatNr}</span>
@@ -46,6 +42,5 @@ const SeatComponent: React.FC<Props> = ({ seat, onSeatClick }) => {
     </button>
   );
 };
-
 
 export default SeatComponent;
