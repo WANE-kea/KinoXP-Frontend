@@ -9,7 +9,7 @@ export default function UpcomingMoviesPage() {
 }
 
 const handleTicketPurchase = (movieId: number) => {
-    navigate(`/booking/${movieId}`);
+  navigate(`/shows/${movieId}`, { state: { movieId } });
 }
   return (
     <>

@@ -7,9 +7,12 @@ export default function AuthStatus() {
 
   if (!auth.isLoggedIn()) {
     return (
+      <>
       <NavLink to="/login" className={styles.loginLink}>
         Login
       </NavLink>
+      <NavLink to="/signup">Sign Up</NavLink>
+      </>
     );
   } else {
     return (

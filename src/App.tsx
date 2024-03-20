@@ -1,18 +1,18 @@
-import { Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import AboutUsPage from './pages/AboutUsPage';
-import GenresPage from './pages/GenresPage';
-import LoginPage from './pages/LoginPage';
-import LogoutPage from './pages/LogoutPage';
-import NotFoundPage from './pages/NotFoundPage';
-import ProgramPage from './pages/ProgramPage';
-import UpcomingMoviesPage from './pages/UpcomingMoviesPage';
-import SeatSelection from './components/SeatSelection'; 
-
-import { useAuth } from './security/AuthProvider';
-import MoviePage from './pages/MoviePage';
-import RequireAuth from './security/RequireAuth';
-import AdminPage from './pages/AdminPage';
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import AboutUsPage from "./pages/AboutUsPage";
+import GenresPage from "./pages/GenresPage";
+import LoginPage from "./pages/LoginPage";
+import LogoutPage from "./pages/LogoutPage";
+import SignUpPage from "./security/SignUp";
+import NotFoundPage from "./pages/NotFoundPage";
+import ProgramPage from "./pages/ProgramPage";
+import UpcomingMoviesPage from "./pages/UpcomingMoviesPage";
+import SeatSelection from "./components/SeatSelection";
+import { useAuth } from "./security/AuthProvider";
+import MoviePage from "./pages/MoviePage";
+import RequireAuth from "./security/RequireAuth";
+import AdminPage from "./pages/AdminPage";
 
 export default function App() {
   const auth = useAuth();
@@ -40,8 +40,10 @@ export default function App() {
               </RequireAuth>
             }
           />
-          <Route path="/seat-selection" element={<SeatSelection />} />
+          <Route path="/shows/:movieId" element={<SeatSelection />} />
+          {/* Changed from /seat-selection to /shows/:movieId */}
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
         </Routes>
       </div>
     </div>
