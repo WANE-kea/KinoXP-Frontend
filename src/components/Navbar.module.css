@@ -68,3 +68,18 @@
   }
 }
 
+.authLinks {
+  display: flex;
+  align-items: center;
+}
+
+.signupLink {
+  margin-left: 1rem;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.signupLink:hover {
+  color: #04d9ff;
+}
