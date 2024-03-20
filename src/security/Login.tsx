@@ -15,7 +15,6 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    console.log("handleSubmit");
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);

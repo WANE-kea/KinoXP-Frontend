@@ -30,7 +30,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = () => {
-    console.log("signOut");
     setUsername(null);
     localStorage.removeItem("token");
     localStorage.removeItem("username");
