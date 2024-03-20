@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getAllMovies, getAllTheaters, handleShow } from "../services/apiFacade";
 
 export default function ShowForm(){
     const [movies, setMovies] = useState([]);
     const [theaters, setTheaters] = useState([]);
-    const [endTime, setEndTime] = useState("");
+    const [endTime, setEndTime] = useState(undefined);
     const [show, setShow] = useState({
         startTime: "",
         endTime: endTime,
         movie: {id:0},
-        theater_id: "",
+        theater_id: 0,
       });
     
 
@@ -29,14 +29,15 @@ export default function ShowForm(){
         event.preventDefault();
         try {
             const res =  await handleShow(show);
-            if(res.ok) {
+            if(res) {
                 event.target.reset();
                 setShow({
                     startTime: "",
-                    endTime: "",
+                    endTime: Date.now(),
                     movie: {id:0},
-                    theater_id: "",
+                    theater_id: 0,
                   });
+                setEndTime(undefined);
                 };
                 showFeedBack("Show created", true);
         } catch (error) {
@@ -65,9 +66,10 @@ export default function ShowForm(){
       const handleChange = (event) => {
         setShow((prev) => ({
           ...prev,
-          [event.target.name]: event.target.name === "movie" ? {id: event.target.value} : event.target.value,
+          [event.target.name]: event.target.name === "movie" ? {id: Number(event.target.value)} : Number(event.target.value),
         }));
       }
+
 
         const handleTimeChange = (event) => {
             setShow((prev) => ({
@@ -79,8 +81,8 @@ export default function ShowForm(){
 
       const calcEndTime = ()=>{
         const startTime = new Date(show.startTime).getTime();
-        const endTime = show.movie.id > 0? startTime + movies.find((movie) => movie.id == show.movie.id).duration*60000 : startTime;
-        return new Date(endTime).toISOString();
+        const endTime = show.movie.id === 0 ? Date.now() : startTime + movies.find((movie) => movie.id === show.movie.id).duration * 60000;
+        return new Date(endTime);
       };
 
 
@@ -90,8 +92,8 @@ export default function ShowForm(){
             <form onSubmit={handleSubmit}>
                 <label>
                     Movie:
-                    <select name="movie" onChange={handleChange}>
-                        <option>Select movie</option>
+                    <select name="movie" onChange={handleChange} required>
+                    <option>Select Movie</option>
                         {movies.map((movie) => (
                             <option key={movie.id} value={movie.id}>
                                 {movie.title}
@@ -101,15 +103,16 @@ export default function ShowForm(){
 
                 <label>
                     Start time:
-                    <input type="datetime-local" name="startTime" onChange={handleTimeChange} />
+                    <input type="datetime-local" name="startTime" onChange={handleTimeChange} required/>
                 </label>
                 <label>
                     End time:
-                    <input type="text" name="endTime" value={endTime} required disabled/>
+                    <input type="text" name="endTime" value={endTime} disabled required/>
                 </label>
                 <label>
                     Theater:
-                    <select name="theater_id" onChange={handleChange}>
+                    <select name="theater_id" onChange={handleChange} required>
+                        <option>Select Theater</option>
                         {theaters.map((theater) => (
                             <option key={theater.id} value={theater.id}>
                                 {theater.name}
@@ -119,8 +122,6 @@ export default function ShowForm(){
 
                 <button type="submit">Create show</button>
             </form>
-           {show.startTime && <p>End time: {calcEndTime()}</p>}
-           {<p>{JSON.stringify(show)}</p>}
         </>
     );
 }
