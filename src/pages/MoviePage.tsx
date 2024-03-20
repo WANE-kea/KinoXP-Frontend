@@ -10,7 +10,7 @@ export default function MoviePage() {
   const navigate = useNavigate();
 
   const handleTicketPurchase = (movieId: number) => {
-    navigate(`/booking/${movieId}`);
+    navigate(`/shows/${movieId}`);
   };
 
   useEffect(() => {

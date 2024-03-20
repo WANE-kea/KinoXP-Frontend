@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Customer } from "../services/interfaces";
+import { Customer } from "../models/interfaces";
 import { authProvider, SignUpRequest } from "../services/authFacade";
 import { useAuth } from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
@@ -44,16 +44,15 @@ const SignUp = () => {
         ...customer,
         username: customer.email,
       } as SignUpRequest);
-      console.log(response);
-      auth
-        .signIn({
-          username: customer.email,
-          password: customer.password,
-        })
-        .then(() => {
-          console.log("Signed in");
-          navigate("/");
-        });
+      response &&
+        auth
+          .signIn({
+            username: customer.email,
+            password: customer.password,
+          })
+          .then(() => {
+            navigate("/");
+          });
     } catch (error) {
       console.error(error);
     }
