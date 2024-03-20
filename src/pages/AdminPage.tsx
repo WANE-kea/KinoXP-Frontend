@@ -1,5 +1,7 @@
 import { useState } from "react";
 import MovieForm from "../components/MovieForm";
+import "./adminPage.css";
+import ShowForm from "../components/ShowForm";
 
 export default function AdminPage(){
     const [selectedView, setSelectedView] = useState("info");
@@ -24,6 +26,9 @@ export default function AdminPage(){
             <button style={{width:"100%",  marginTop:"5px"}} onClick={() => handleSelected("createMovie")}>
               Create Movie Entry
             </button>
+            <button style={{width:"100%",  marginTop:"5px"}} onClick={() => handleSelected("createShow")}>
+              Create Show Entry
+            </button>
           </>
         );
   }
@@ -41,6 +46,7 @@ return (
           <div className="component-container">
             {selectedView == "info" ? <p>Kino-XP-Admin. Here you can manage your cinema.</p> : null}
             {selectedView == "createMovie" ? <MovieForm/> : null}
+            {selectedView == "createShow" ? <ShowForm/> : null}
           </div>
         </div>
       </div>

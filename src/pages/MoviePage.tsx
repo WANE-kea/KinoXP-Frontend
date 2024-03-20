@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getMovieById } from "../services/apiFacade";
 import { Movie } from "../services/interfaces";
+import "./moviePage.css";
 
 export default function MoviePage(){
     const { id } = useParams();

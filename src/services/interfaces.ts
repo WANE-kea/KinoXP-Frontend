@@ -46,7 +46,7 @@ interface Show {
   id: number | null;
   startTime: Date;
   endTime: Date;
-  movie: Movie[];
+  movie: Movie;
   theater: Theater[];
 }
 interface Theater {
