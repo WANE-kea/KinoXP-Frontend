@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import styles from "./AuthStatus.module.css"; // Assume you have this CSS module
 
 export default function AuthStatus() {
   const auth = useAuth();
@@ -7,16 +8,20 @@ export default function AuthStatus() {
   if (!auth.isLoggedIn()) {
     return (
       <>
-        <button>
-          {" "}
-          <NavLink to="/login">Login</NavLink>
-        </button>
-        <button>
-          <NavLink to="/signup">Sign Up</NavLink>
-        </button>
+      <NavLink to="/login" className={styles.loginLink}>
+        Login
+      </NavLink>
+      <NavLink to="/signup">Sign Up</NavLink>
       </>
     );
   } else {
-    return <Link to="/logout">Logout (Logged in as {auth.username})</Link>;
+    return (
+      <div className={styles.authStatus}>
+        <span className={styles.username}>{auth.username}</span>
+        <Link to="/logout" className={styles.logoutLink}>
+          Logout
+        </Link>
+      </div>
+    );
   }
 }

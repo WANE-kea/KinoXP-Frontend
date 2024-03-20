@@ -21,28 +21,30 @@ export default function App() {
   return (
     <div>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<ProgramPage />} />
-        <Route path="/movies">
-          <Route index element={<UpcomingMoviesPage />} />
-          <Route path=":id" element={<MoviePage />} />
-        </Route>
-        <Route path="/genres" element={<GenresPage />} />
-        <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/logout" element={<LogoutPage />} />
-        <Route
-          path="/admin"
-          element={
-            <RequireAuth roles={["ADMIN"]}>
-              <AdminPage />
-            </RequireAuth>
-          }
-        />
-        <Route path="/seat-selection" element={<SeatSelection />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <div className="main-content">
+        <Routes>
+          <Route path="/" element={<ProgramPage />} />
+          <Route path="/movies">
+            <Route index element={<UpcomingMoviesPage />} />
+            <Route path=":id" element={<MoviePage />} />
+          </Route>
+          <Route path="/genres" element={<GenresPage />} />
+          <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/logout" element={<LogoutPage />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth roles={["ADMIN"]}>
+                <AdminPage />
+              </RequireAuth>
+            }
+          />
+          <Route path="/seat-selection" element={<SeatSelection />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+        </Routes>
+      </div>
     </div>
   );
 }
