@@ -1,0 +1,68 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-form {
+    width: 40%;
+    max-width: 340px;
+    background: #7b7b7b;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-form-group {
+  margin-bottom: 16px;
+}
+
+.login-form-group label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.login-form-group input {
+    width: 90%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    left: -3px;
+    position: relative;
+}
+
+.login-form-group type="text" {
+    width: 90%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    left: -3px;
+    position: relative;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #5c6bc0;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #3f51b5;
+}
+
+input[type="text"], input[type="file"] {
+    width: 90%;
+    padding: 12px;
+}

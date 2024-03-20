@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { User } from "../services/authFacade";
+import './Login.css';
 
 const Login = () => {
     const [user, setUser] = useState({ username: "", password: "" });
@@ -35,7 +36,7 @@ const Login = () => {
 
     return (
         <div className="login-wrapper">
-            <form className="login-form" onSubmit={handleSubmit}>
+            <form className="login-form" id="username" onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <div className="login-form-group">
                     <label htmlFor="username">Username</label>
