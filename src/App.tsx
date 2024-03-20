@@ -41,7 +41,6 @@ export default function App() {
             }
           />
           <Route path="/shows/:movieId" element={<SeatSelection />} />
-          {/* Changed from /seat-selection to /shows/:movieId */}
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/signup" element={<SignUpPage />} />
         </Routes>
