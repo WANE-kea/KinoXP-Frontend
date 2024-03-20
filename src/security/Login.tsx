@@ -21,11 +21,8 @@ const Login = () => {
     const user = Object.fromEntries(formData) as unknown as User;
 
     setErr(null);
-    if (err) {
-      console.log(err);
-    }
+    console.log(err);
 
-    alert("Login: " + JSON.stringify(user));
     auth
       .signIn(user)
       .then(() => {
@@ -33,7 +30,6 @@ const Login = () => {
       })
       .catch((err) => {
         setErr(err);
-        console.log(err);
       });
   }
 
