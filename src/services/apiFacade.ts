@@ -226,7 +226,7 @@ async function getShowById(id: number): Promise<interfaces.Show> {
   }
 }
 
-async function handleShow(show: interfaces.Show): Promise<interfaces.Show> {
+async function handleShow(show: interfaces.Show) {
   try {
     const method = show.id ? "PUT" : "POST";
     const options = makeOptions(method, show, true);
