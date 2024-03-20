@@ -33,12 +33,6 @@ export default function Navbar() {
           Upcoming movies
         </NavLink>
         <NavLink
-          to="/genres"
-          className={({ isActive }) => getNavLinkClass(isActive)}
-        >
-          Genres
-        </NavLink>
-        <NavLink
           to="/about"
           className={({ isActive }) => getNavLinkClass(isActive)}
         >
