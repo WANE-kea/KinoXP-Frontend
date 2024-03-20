@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllMovies, getAllTheaters, handleShow } from "../services/apiFacade";
 
 export default function ShowForm(){
@@ -7,9 +7,9 @@ export default function ShowForm(){
     const [endTime, setEndTime] = useState("");
     const [show, setShow] = useState({
         startTime: "",
-        endTime: "",
-        movie: {id:""},
-        theater: {id:""},
+        endTime: endTime,
+        movie: {id:0},
+        theater_id: "",
       });
     
 
@@ -29,13 +29,13 @@ export default function ShowForm(){
         event.preventDefault();
         try {
             const res =  await handleShow(show);
-            if(res) {
+            if(res.ok) {
                 event.target.reset();
                 setShow({
                     startTime: "",
                     endTime: "",
-                    movie: {id:""},
-                    theater: {id:""},
+                    movie: {id:0},
+                    theater_id: "",
                   });
                 };
                 showFeedBack("Show created", true);
@@ -65,27 +65,21 @@ export default function ShowForm(){
       const handleChange = (event) => {
         setShow((prev) => ({
           ...prev,
-          [event.target.name]: event.target.value,
+          [event.target.name]: event.target.name === "movie" ? {id: event.target.value} : event.target.value,
         }));
       }
-
 
         const handleTimeChange = (event) => {
             setShow((prev) => ({
             ...prev,
             startTime: event.target.value,
-            endTime: calcEndTime(),
             }));
             setEndTime(calcEndTime());
         }
 
       const calcEndTime = ()=>{
-        console.log(movies);
-        console.log(show.startTime);
         const startTime = new Date(show.startTime).getTime();
-        console.log(startTime);
-        const endTime = startTime + (movies.find((movie) => movie.id === show.movie.id).duration*60000);
-        console.log(endTime);
+        const endTime = show.movie.id > 0? startTime + movies.find((movie) => movie.id == show.movie.id).duration*60000 : startTime;
         return new Date(endTime).toISOString();
       };
 
@@ -97,6 +91,7 @@ export default function ShowForm(){
                 <label>
                     Movie:
                     <select name="movie" onChange={handleChange}>
+                        <option>Select movie</option>
                         {movies.map((movie) => (
                             <option key={movie.id} value={movie.id}>
                                 {movie.title}
@@ -110,11 +105,11 @@ export default function ShowForm(){
                 </label>
                 <label>
                     End time:
-                    <input type="datetime-local" name="endTime" value={endTime} required/>
+                    <input type="text" name="endTime" value={endTime} required disabled/>
                 </label>
                 <label>
                     Theater:
-                    <select name="theater" onChange={handleChange}>
+                    <select name="theater_id" onChange={handleChange}>
                         {theaters.map((theater) => (
                             <option key={theater.id} value={theater.id}>
                                 {theater.name}
@@ -125,6 +120,7 @@ export default function ShowForm(){
                 <button type="submit">Create show</button>
             </form>
            {show.startTime && <p>End time: {calcEndTime()}</p>}
+           {<p>{JSON.stringify(show)}</p>}
         </>
     );
 }
