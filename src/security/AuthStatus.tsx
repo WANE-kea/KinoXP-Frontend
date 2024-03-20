@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import Logout from "./Logout";
 import styles from "./AuthStatus.module.css"; // Assume you have this CSS module
 
 export default function AuthStatus() {
