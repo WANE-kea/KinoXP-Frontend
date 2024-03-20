@@ -22,7 +22,6 @@ const Login = () => {
 
         setErr(null);
         console.log(err);
-        alert("Login: " + JSON.stringify(user));
 
         auth
             .signIn(user)

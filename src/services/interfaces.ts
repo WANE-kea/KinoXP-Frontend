@@ -46,7 +46,7 @@ interface Show {
   id: number | null;
   startTime: Date;
   endTime: Date;
-  movie: Movie[];
+  movie: Movie;
   theater: Theater[];
 }
 interface Theater {
@@ -58,6 +58,7 @@ interface Customer {
   middleName?: string;
   lastName: string;
   email: string;
+  password: string;
   streetAddress: string;
   streetNo: string;
   zip: string;
