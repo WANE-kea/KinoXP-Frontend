@@ -8,23 +8,45 @@ interface Category {
   id: number | null;
   name: string;
 }
+interface Customer {   
+    firstName: string;   
+    middleName?: string;   
+    lastName: string;   
+    streetAddress: string;   
+    streetNo: string;   
+    zip: string;   
+    country: string;   
+    phone: string; 
+}  
+
 interface Movie {
-  id: number | null;
-  title: string;
+    id: number | null;
+    title: string;
+    description: string;
+    posterBase64: string | null;
+    trailerUrl: string | null;
+    posterUrl: string | null;
+    ageLimit: number;
+    duration: number;
+    categories: Category[];    
 }
+
 interface Seat {
-  id: number | null;
-  seatRow: number;
+  id: string;
+  seatRow: string;
   seatNr: number;
   available: boolean;
-  theater: Theater[];
+  theater_id: number;
   type: string;
+  isSelected?: boolean; // Optional property to track selection state
 }
+
+
 interface Show {
   id: number | null;
   startTime: Date;
   endTime: Date;
-  movie: Movie[];
+  movie: Movie;
   theater: Theater[];
 }
 interface Theater {
@@ -44,4 +66,7 @@ interface Customer {
   phone: string;
 }
 
+
+
 export type { Booking, Category, Movie, Seat, Show, Theater, Customer };
+

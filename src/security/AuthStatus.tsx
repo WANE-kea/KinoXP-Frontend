@@ -16,10 +16,6 @@ export default function AuthStatus() {
       </ul>
     );
   } else {
-    return (
-      <li>
-        <Link to="/logout">Logout (Logged in as {auth.username})</Link>
-      </li>
-    );
+    return <Link to="/logout">Logout (Logged in as {auth.username})</Link>;
   }
 }
