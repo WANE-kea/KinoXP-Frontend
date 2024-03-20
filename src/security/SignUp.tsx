@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Customer } from "../services/interfaces";
 import { authProvider, SignUpRequest } from "../services/authFacade";
 
-const SignUp: React.FC = () => {
+const SignUp = () => {
   const [customer, setCustomer] = useState<Customer>({
     firstName: "",
     middleName: "",
@@ -23,7 +23,7 @@ const SignUp: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await authProvider.signUp({
