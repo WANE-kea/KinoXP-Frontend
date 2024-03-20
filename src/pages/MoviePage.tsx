@@ -34,7 +34,7 @@ export default function MoviePage() {
             <p>
               Categories:{" "}
               {movie.categories?.map((category) => (
-                <span key={category.id}>{category.name} </span>
+                <span key={category}>{category} </span>
               ))}
             </p>
             <p>Duration: {movie.duration} minutes</p>

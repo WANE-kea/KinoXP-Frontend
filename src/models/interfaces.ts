@@ -28,7 +28,7 @@ interface Movie {
   posterUrl: string | null;
   ageLimit: number;
   duration: number;
-  categories: Category[];
+  categories: string[];
 }
 
 interface Seat {
