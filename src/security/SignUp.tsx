@@ -40,18 +40,16 @@ const SignUp = () => {
       return;
     }
     try {
-      const response = await authProvider.signUp({
+      await authProvider.signUp({
         ...customer,
         username: customer.email,
       } as SignUpRequest);
-      console.log(response);
       auth
         .signIn({
           username: customer.email,
           password: customer.password,
         })
         .then(() => {
-          console.log("Signed in");
           navigate("/");
         });
     } catch (error) {
