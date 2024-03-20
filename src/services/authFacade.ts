@@ -1,7 +1,7 @@
 import { API_URL } from "../settings";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
 const LOGIN_URL = API_URL + "/api/auth/login";
-const SIGNUP_URL = API_URL + "";
+const SIGNUP_URL = API_URL + "/api/user-with-role";
 
 export type User = { username: string; password: string; roles?: string[] };
 
