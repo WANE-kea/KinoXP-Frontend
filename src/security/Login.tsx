@@ -22,17 +22,17 @@ const Login = () => {
     const user = Object.fromEntries(formData) as unknown as User;
 
     setErr(null);
-    console.log(err);
-    alert("Login: " + JSON.stringify(user));
+    if (err) {
+      console.log(err);
+    }
 
+    alert("Login: " + JSON.stringify(user));
     auth
       .signIn(user)
       .then(() => {
-        console.log("Login successful ??");
         navigate(from, { replace: true });
       })
       .catch((err) => {
-        console.log("Login failed" + err);
         setErr(err);
         console.log(err);
       });

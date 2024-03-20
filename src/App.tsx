@@ -2,8 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AboutUsPage from "./pages/AboutUsPage";
 import LoginPage from "./pages/LoginPage";
-//import LogoutPage from './pages/LogoutPage';
-import Logout from "./security/Logout";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProgramPage from "./pages/ProgramPage";
 import UpcomingMoviesPage from "./pages/UpcomingMoviesPage";
@@ -30,7 +28,6 @@ export default function App() {
           </Route>
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/logout" element={<Logout />} />
           <Route
             path="/admin"
             element={

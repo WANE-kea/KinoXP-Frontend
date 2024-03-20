@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Movie } from "../services/interfaces";
+import { Movie } from "../models/interfaces";
 import { getAllMovies } from "../services/apiFacade";
 
 export default function MovieGrid({ handleTicketPurchase, showMovieInfo }) {

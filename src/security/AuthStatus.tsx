@@ -5,6 +5,7 @@ import styles from "./AuthStatus.module.css"; // Assume you have this CSS module
 
 export default function AuthStatus() {
   const auth = useAuth();
+  console.log(auth);
   console.log("auth.isLoggedIn() = ", auth.isLoggedIn());
   if (!auth.isLoggedIn()) {
     console.log("if er true");
@@ -19,10 +20,10 @@ export default function AuthStatus() {
     return (
       <div className={styles.authStatus}>
         <span className={styles.username}>{auth.username}</span>
-        {/* <div onClick={Logout} className={styles.logoutLink}>
+        <div onClick={auth.signOut} className={styles.logoutLink}>
           Logout
-        </div> */}
-        <Logout />
+        </div>
+        {/* <Logout /> */}
       </div>
     );
   }
