@@ -4,12 +4,11 @@ import AboutUsPage from "./pages/AboutUsPage";
 import GenresPage from "./pages/GenresPage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
-import SignUp from "./security/SignUp";
+import SignUpPage from "./security/SignUp";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProgramPage from "./pages/ProgramPage";
 import UpcomingMoviesPage from "./pages/UpcomingMoviesPage";
 import SeatSelection from "./components/SeatSelection";
-
 import { useAuth } from "./security/AuthProvider";
 import MoviePage from "./pages/MoviePage";
 import RequireAuth from "./security/RequireAuth";
@@ -41,7 +40,7 @@ export default function App() {
           }
         />
         <Route path="/seat-selection" element={<SeatSelection />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
