@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import { useAuth } from "./AuthProvider";
 import { Navigate } from "react-router-dom";
 
 export default function Logout() {
-    const auth = useAuth();
+  console.log("Logout");
+  const auth = useAuth();
+
+  useEffect(() => {
     auth.signOut();
-    return <Navigate to="/" replace={true} />;
+  }, [auth]);
+
+  return <Navigate to="/" replace={true} />;
 }

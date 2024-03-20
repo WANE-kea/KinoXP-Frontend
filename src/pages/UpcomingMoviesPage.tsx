@@ -6,18 +6,18 @@ export default function UpcomingMoviesPage() {
 
   const showMovieInfo = (movieId: number) => {
     navigate(`/movies/${movieId}`);
-}
+  };
 
-const handleTicketPurchase = (movieId: number) => {
-    navigate(`/booking/${movieId}`);
-}
+  const handleTicketPurchase = (movieId: number) => {
+    navigate(`/shows/${movieId}`);
+  };
   return (
     <>
-      <div style={{padding:"20px"}}>
+      <div style={{ padding: "20px" }}>
         <h1>Upcoming Movies</h1>
         <p>Here you will find a list of movies that will be screened in the cinema in the near future.</p>
       </div>
-      <MovieGrid showMovieInfo={showMovieInfo} handleTicketPurchase={handleTicketPurchase}/>
+      <MovieGrid showMovieInfo={showMovieInfo} handleTicketPurchase={handleTicketPurchase} />
     </>
   );
 }

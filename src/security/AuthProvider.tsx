@@ -21,14 +21,17 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (user_: LoginRequest) => {
     return authProvider.signIn(user_).then((user) => {
       setUsername(user.username);
+      console.log(user.username);
       localStorage.setItem("username", user.username);
       localStorage.setItem("roles", JSON.stringify(user.roles));
       localStorage.setItem("token", user.token);
+
       return user;
     });
   };
 
   const signOut = () => {
+    console.log("signOut");
     setUsername(null);
     localStorage.removeItem("token");
     localStorage.removeItem("username");

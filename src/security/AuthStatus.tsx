@@ -5,20 +5,24 @@ import styles from "./AuthStatus.module.css"; // Assume you have this CSS module
 
 export default function AuthStatus() {
   const auth = useAuth();
-
+  console.log("auth.isLoggedIn() = ", auth.isLoggedIn());
   if (!auth.isLoggedIn()) {
+    console.log("if er true");
+
     return (
       <NavLink to="/login" className={styles.loginLink}>
         Login
       </NavLink>
     );
   } else {
+    console.log("if er false");
     return (
       <div className={styles.authStatus}>
         <span className={styles.username}>{auth.username}</span>
-        <Link to="/logout" className={styles.logoutLink}>
+        {/* <div onClick={Logout} className={styles.logoutLink}>
           Logout
-        </Link>
+        </div> */}
+        <Logout />
       </div>
     );
   }

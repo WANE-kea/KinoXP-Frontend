@@ -26,29 +26,14 @@ export default function Navbar() {
         <NavLink to="/" className={({ isActive }) => getNavLinkClass(isActive)}>
           Program
         </NavLink>
-        <NavLink
-          to="/movies"
-          className={({ isActive }) => getNavLinkClass(isActive)}
-        >
+        <NavLink to="/movies" className={({ isActive }) => getNavLinkClass(isActive)}>
           Upcoming movies
         </NavLink>
-        <NavLink
-          to="/genres"
-          className={({ isActive }) => getNavLinkClass(isActive)}
-        >
-          Genres
-        </NavLink>
-        <NavLink
-          to="/about"
-          className={({ isActive }) => getNavLinkClass(isActive)}
-        >
+        <NavLink to="/about" className={({ isActive }) => getNavLinkClass(isActive)}>
           About us
         </NavLink>
         {auth.isLoggedInAs(["ADMIN"]) && (
-          <NavLink
-            to="/admin"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
+          <NavLink to="/admin" className={({ isActive }) => getNavLinkClass(isActive)}>
             Admin
           </NavLink>
         )}
