@@ -25,4 +25,4 @@ export default function MovieGrid({handleTicketPurchase, showMovieInfo}) {
             ))}
         </div>
     );
-};
+}

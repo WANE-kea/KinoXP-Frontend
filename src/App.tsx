@@ -40,7 +40,8 @@ export default function App() {
               </RequireAuth>
             }
           />
-          <Route path="/seat-selection" element={<SeatSelection />} />
+          <Route path="/shows/:movieId" element={<SeatSelection />} />
+          {/* Changed from /seat-selection to /shows/:movieId */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
