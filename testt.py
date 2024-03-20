@@ -1,50 +1,29 @@
-import random
-
 # Constants
 total_rows = 25
 seats_per_row = 16
 theater_id = 1
 
-# Adjusting seat types according to the new understanding
-seat_types = ["2", "1", "0"]  # Available is not a type but a separate attribute
-total_handicap = 3
-total_broken = 2
-total_vip = 2
-
-# Resetting the seat positions
+# Generate seat positions for all rows
 seat_positions = [(row, seat) for row in range(1, total_rows + 1) for seat in range(1, seats_per_row + 1)]
 
-# Randomly select positions for special seat types
-handicap_positions = random.sample(seat_positions, total_handicap)
-for pos in handicap_positions:
-    seat_positions.remove(pos)
+# Specific assignments
+specific_handicap_positions = [(25, 1), (25, 2), (25, 3), (25, 14), (25, 15), (25, 16),
+                               (18, 1), (18, 16), (19, 1), (19, 16), (7, 1), (7, 16), (8, 1), (8, 16)]
 
-broken_positions = random.sample(seat_positions, total_broken)
-for pos in broken_positions:
-    seat_positions.remove(pos)
+specific_vip_positions = [(row, seat) for row in range(13, 15 + 1) for seat in range(1, seats_per_row + 1)]
 
-vip_positions = random.sample(seat_positions, total_vip)
-for pos in vip_positions:
-    seat_positions.remove(pos)
-
-# Generate SQL statements with correct understanding of "available"
+# Generate SQL statements with correct understanding of "available" and types
 sql_statements_corrected = []
 
-# Handicap seats (available)
-for pos in handicap_positions:
-    sql_statements_corrected.append("INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (1, {}, {}, {}, '2');".format(pos[1], pos[0], theater_id))
-
-# Broken seats (unavailable)
-for pos in broken_positions:
-    sql_statements_corrected.append("INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (0, {}, {}, {}, '0');".format(pos[1], pos[0], theater_id))
-
-# VIP seats (available)
-for pos in vip_positions:
-    sql_statements_corrected.append("INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (1, {}, {}, {}, '1');".format(pos[1], pos[0], theater_id))
-
-# Remaining seats as regular type (available)
-for pos in seat_positions:
-    sql_statements_corrected.append("INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (1, {}, {}, {}, '0');".format(pos[1], pos[0], theater_id))
+# Generate SQL statements for each row, maintaining the specific seat types
+for row in range(1, total_rows + 1):
+    for seat in range(1, seats_per_row + 1):
+        if (row, seat) in specific_handicap_positions:
+            sql_statements_corrected.append(f"INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (1, {seat}, {row}, {theater_id}, '2');")
+        elif (row, seat) in specific_vip_positions:
+            sql_statements_corrected.append(f"INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (1, {seat}, {row}, {theater_id}, '1');")
+        else:
+            sql_statements_corrected.append(f"INSERT INTO seats (available, seat_nr, seat_row, theater_id, type) VALUES (1, {seat}, {row}, {theater_id}, '0');")
 
 # Print all statements
 for statement in sql_statements_corrected:

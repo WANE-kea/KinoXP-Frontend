@@ -1,0 +1,37 @@
+/* AuthStatus.module.css */
+.loginLink {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.loginLink:hover {
+  color: #04d9ff; /* A lighter shade for hover effect */
+}
+
+.authStatus {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between the username and logout link */
+  font-size: 0.875rem; /* Match font size for consistency */
+}
+
+.username {
+  color: #ddd; /* A lighter shade for the username for less prominence */
+}
+
+.logoutLink {
+  color: #ddd; /* Same color as username for consistency */
+  padding: 0.2rem 0.5rem; /* Reduced padding for a subtler button */
+  border: 1px solid #ddd; /* Border instead of background color */
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.logoutLink:hover {
+  color: #fff; /* Brighter color on hover for contrast */
+  background-color: rgba(167, 52, 52, 0.774); /* Slight background color on hover */
+  border-color: #fff; /* Border color to match text on hover */
+}
