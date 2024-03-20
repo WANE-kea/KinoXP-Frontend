@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from "react";
-import SeatComponent from "./SeatComponent";
-import { Seat, ShowDetails } from "../models/Seat"; // Assuming ShowDetails is properly defined here
-import "./SeatSelection.css";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import SeatComponent from './SeatComponent';
+import { Seat, ShowDetails } from '../models/Seat';
+import './SeatSelection.css';
 
 export interface UISeat extends Seat {
   isSelected: boolean;
+  isReserved: boolean;
 }
 
-// Simple Modal Component for displaying selection details
 const SelectionModal = ({ showDetails, selectedSeats }: { showDetails: ShowDetails | null; selectedSeats: UISeat[] }) => {
-  // Optional chaining and a default message if showDetails or movie is undefined
-  const theaterId = showDetails?.theater_id ?? 'Loading...';
   const showTitle = showDetails?.movie?.title ?? 'Loading...';
   const showStartTime = showDetails?.startTime ? new Date(showDetails.startTime).toLocaleString() : 'Loading...';
 
   return (
     <div className="selection-modal">
       <h2>Your purchase</h2>
-      <p>{theaterId}</p>
       <p>Show: {showTitle}</p>
       <p>Date & Time: {showStartTime}</p>
       <h3>Selected Seats:</h3>
@@ -29,55 +27,66 @@ const SelectionModal = ({ showDetails, selectedSeats }: { showDetails: ShowDetai
 };
 
 const SeatSelection: React.FC = () => {
+  const { movieId } = useParams<{ movieId: string }>();
   const [seats, setSeats] = useState<UISeat[]>([]);
   const [showDetails, setShowDetails] = useState<ShowDetails | null>(null);
 
-  // Fetch seats and show details
   useEffect(() => {
-    fetch("http://localhost:8080/seats")
-      .then((response) => response.json())
-      .then((data) => {
-        const uiSeats = data.map((seatData) => ({
-          ...seatData,
-          isSelected: false,
-        }));
-        setSeats(uiSeats);
-      })
-      .catch((error) => {
-        console.error("Error fetching seats:", error);
+    const fetchSeatsAndShowDetails = async () => {
+  try {
+    if (movieId) {
+      // Fetch show details
+      const showResponse = await fetch(`http://localhost:8080/shows/${movieId}`);
+      const showData: ShowDetails = await showResponse.json();
+      setShowDetails(showData);
+
+      // Fetch seats for the theater
+      const seatsResponse = await fetch(`http://localhost:8080/theaters/${showData.theater_id}`);
+      const theaterData = await seatsResponse.json();
+      const theaterSeats: Seat[] = theaterData.seats;
+
+      // Create a set to track reserved seat IDs from all bookings for this show
+      const reservedSeatIds = new Set();
+      showData.bookings.forEach(booking => {
+        booking.seats.forEach(seat => {
+          reservedSeatIds.add(seat.id);
+        });
       });
 
-    // Inside your useEffect hook where you fetch the data
-    fetch("http://localhost:8080/bookings")
-      .then((response) => response.json())
-      .then((data) => {
-        // Assuming you want the first show details from the bookings array
-        const firstBooking = data.find(
-          (booking) => booking.id === "00000000-0000-3100-0000-000000000005"
-        );
-        setShowDetails(firstBooking.show);
-      })
-      .catch((error) => console.error("Error fetching show details:", error));
-  }, []);
+      // Map over the seats from the theater and update their reserved status
+      const updatedSeats = theaterSeats.map(seat => ({
+        ...seat,
+        isSelected: false,
+        isReserved: reservedSeatIds.has(seat.id), // Check if the seat ID is in the reservedSeatIds set
+      }));
+      
+      setSeats(updatedSeats as UISeat[]);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+
+    fetchSeatsAndShowDetails();
+  }, [movieId]);
 
   const handleSeatClick = (seatId: string) => {
-    setSeats((prevSeats) =>
-      prevSeats.map((seat) =>
-        seat.id === seatId
-          ? { ...seat, isSelected: !seat.isSelected } // Toggle isSelected state
-          : seat
+    setSeats(prevSeats =>
+      prevSeats.map(seat =>
+        seat.id === seatId ? { ...seat, isSelected: !seat.isSelected } : seat
       )
     );
   };
 
-  const selectedSeats = seats.filter((seat) => seat.isSelected);
+  const selectedSeats = seats.filter(seat => seat.isSelected);
 
-  const rows = seats.reduce((acc, seat) => {
-    acc[seat.seatRow] = acc[seat.seatRow] || [];
+// Convert the array of seats into a map of rows to seats
+  const rows = seats.reduce((acc: { [key: string]: UISeat[] }, seat) => {
+    if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
     acc[seat.seatRow].push(seat);
     return acc;
   }, {});
-
 
   const seatLegend = (
     <div className="seat-legend">
@@ -114,20 +123,17 @@ const SeatSelection: React.FC = () => {
     {Object.keys(rows).map((rowLabel) => (
       <div key={rowLabel} className="row">
         <div className="row-label">{rowLabel}</div>
-        {rows[rowLabel].map((seat, index) => (
-          <SeatComponent
-            key={`${rowLabel}-${seat.id || index}`}
-            seat={seat}
-            onSeatClick={handleSeatClick}
-            className={
-              seat.isSelected
-                ? "selected"
-                : !seat.available || seat.Status !== 1
-                ? "reserved"
-                : ""
-            }
-          />
-        ))}
+       {rows[rowLabel].map((seat, index) => (
+  <SeatComponent
+    key={`${rowLabel}-${seat.id || index}`}
+    seat={seat}
+    onSeatClick={handleSeatClick}
+    className={
+      seat.isReserved ? "reserved" :
+      seat.isSelected ? "selected" : ""
+    }
+  />
+))}
         <div className="row-label">{rowLabel}</div>
  </div>
     ))}
