@@ -33,7 +33,7 @@ const SeatComponent: React.FC<Props> = ({ seat, onSeatClick }) => {
     >
       {seat.type === "HANDICAP" || seat.type === "VIP" ? (
         <img
-          src={`/public/${seat.type.toLowerCase()}.svg`}
+          src={`/${seat.type}.svg`}
           alt={`${seat.type} seat`}
         />
       ) : (
