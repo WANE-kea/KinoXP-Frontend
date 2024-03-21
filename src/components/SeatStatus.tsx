@@ -17,13 +17,6 @@ export default function SeatStatus() {
         setSelectedSeatAvailable(seat.available);
     };
 
-    useEffect(() => {
-        getAllSeats().then((data) => {
-            data = data.filter((seat) => seat.theater_id == filter);
-            setSeats(data);
-        })}
-    , []);
-
     const handleChange = (event) => {
         if(event.target.name === "available"){
            setSelectedSeatAvailable(event.target.checked);
@@ -58,36 +51,28 @@ export default function SeatStatus() {
 
     const handleFilter = (event) => {
         setFilter(event.target.value);
-        if(event.target.value === "0"){
-            getAllSeats().then((data) => {
-                setSeats(data);
-            });
-        } else {
-            getAllSeats().then((data) => {
-                data = data.filter((seat) => seat.theater_id == event.target.value);
-                setSeats(data);
-            });
-        }
+        getSeats();
     }
     
-    const getSeats = () => {
-        getAllSeats().then((data) => {
-            data = data.filter((seat) => seat.theater_id == filter);
-            setSeats(data);
-        });
-        const updatedRows = seats.reduce((acc: { [key: string]: UISeat[] }, seat) => {
+const getSeats = () => {
+    getAllSeats().then((data) => {
+        data = data.filter((seat) => seat.theater_id == filter);
+        setSeats(data);
+
+        const updatedRows = data.reduce((acc: { [key: string]: UISeat[] }, seat) => {
             if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
             acc[seat.seatRow].push(seat);
             return acc;
         }, {});
-        setRows(updatedRows);
-    }
 
- 
+        setRows(updatedRows);
+    });
+}
+
 
     useEffect(() => {
         getSeats();
-    }, [seats, filter]);
+    }, []);
 
 
    return (
@@ -141,8 +126,7 @@ export default function SeatStatus() {
                 <div key={rowLabel} className="row">
                 <div className="row-label">{rowLabel}</div>
                 {rows[rowLabel].map((seat) => (
-                <button key={seat.id} onClick={() => handleSeatSelect(seat)} style={{backgroundColor:seat.available? "green" : "red"}}>
-                {seat.seatNr}
+                <button className="seat" key={seat.id} onClick={() => handleSeatSelect(seat)} style={{backgroundColor:seat.available? "green" : "red"}} data-number={seat.seatNr}>
                 </button>
                 ))}
             </div>
