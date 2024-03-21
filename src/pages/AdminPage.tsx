@@ -30,6 +30,7 @@ export default function AdminPage(){
             </button>
             <button style={{ width: "100%", marginTop: "5px" }} onClick={() => handleSelected("createCategory")}>
               Create Category
+            </button>
             <button style={{width:"100%",  marginTop:"5px"}} onClick={() => handleSelected("updateSeat")}>
               Update Seat status
             </button>
