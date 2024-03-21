@@ -3,7 +3,6 @@ import { getAllCategories, handleCategory } from "../services/apiFacade";
 
 export default function CategoryForm() {
     const [categories, setCategories] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
     const [category, setCategory] = useState({
         name: "",
     });
@@ -13,15 +12,6 @@ export default function CategoryForm() {
             setCategories(data);
         });
     }, []);
-
-    const handleCategory = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        if (selectedCategories.includes(value)) {
-            setSelectedCategories((prev) => prev.filter((c) => c !== value));
-        } else {
-            setSelectedCategories((prev) => [...prev, value]);
-        }
-    };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCategory((prev) => ({
@@ -34,8 +24,11 @@ export default function CategoryForm() {
         event.preventDefault();
         try {
             const res = await handleCategory(category);
-            if (res) {
+            if (res.ok) {
                 event.target.reset();
+                getAllCategories().then((data) => {
+                    setCategories(data);
+                });
                 setCategory({
                     name: "",
                 });
@@ -45,8 +38,6 @@ export default function CategoryForm() {
             console.log(error);
         }
     }
-
-
 
     const showFeedBack = (message, success) => {
         const div = document.createElement("div");
