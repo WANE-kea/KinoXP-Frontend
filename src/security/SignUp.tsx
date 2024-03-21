@@ -3,6 +3,7 @@ import { Customer } from "../services/interfaces";
 import { authProvider, SignUpRequest } from "../services/authFacade";
 import { useAuth } from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
+import './SignUp.css';
 
 const SignUp = () => {
   const [customer, setCustomer] = useState<Customer>({
@@ -60,52 +61,34 @@ const SignUp = () => {
   };
 
   return (
-    <div className="sign-up-wrapper">
-      <form className="sign-up-form" onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input type="text" name="firstName" value={customer.firstName} onChange={handleChange} />
-        </label>
-        <label>
-          Middle Name:
-          <input type="text" name="middleName" value={customer.middleName} onChange={handleChange} />
-        </label>
-        <label>
-          Last Name:
-          <input type="text" name="lastName" value={customer.lastName} onChange={handleChange} />
-        </label>
-        <label>
-          Email:
-          <input type="email" name="email" value={customer.email} onChange={handleChange} />
-        </label>
-        <label>
-          Password:
-          <input type="password" name="password" value={customer.password} onChange={handleChange} />
-        </label>
-        <label>
-          Street Address:
-          <input type="text" name="streetAddress" value={customer.streetAddress} onChange={handleChange} />
-        </label>
-        <label>
-          Street No:
-          <input type="text" name="streetNo" value={customer.streetNo} onChange={handleChange} />
-        </label>
-        <label>
-          ZIP:
-          <input type="text" name="zip" value={customer.zip} onChange={handleChange} />
-        </label>
-        <label>
-          Country:
-          <input type="text" name="country" value={customer.country} onChange={handleChange} />
-        </label>
-        <label>
-          Phone:
-          <input type="number" name="phone" value={customer.phone} onChange={handleChange} />
-        </label>
-        <input type="submit" value="Sign Up" className="sign-up-btn" />
+    <div className="signUpWrapper">
+      <h2 className="title">Sign Up</h2>
+      <form className="signUpForm" onSubmit={handleSubmit}>
+        {/* Iterate over fields to create form inputs */}
+        {Object.keys(customer).map((key) => {
+          const isMiddleName = key === "middleName";
+          return (
+            <div key={key} className="formGroup">
+              <label className="label">{`${key[0].toUpperCase()}${key.slice(1).replace(/([A-Z])/g, ' $1')}:`}</label>
+              <input
+                className="input"
+                type={key === "password" ? "password" : key === "email" ? "email" : key === "phone" ? "number" : "text"}
+                name={key}
+                value={customer[key]}
+                onChange={handleChange}
+                placeholder={`Enter ${key}`}
+                required={!isMiddleName}
+              />
+            </div>
+          );
+        })}
+        <button className="submitButton" type="submit">
+          Create Account
+        </button>
       </form>
     </div>
   );
 };
+
 
 export default SignUp;
