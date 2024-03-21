@@ -42,8 +42,8 @@ export default function SeatStatus() {
 
   const resetForm = () => {
     setSelectedSeat({});
-    setSelectedSeatType();
-    setSelectedSeatAvailable();
+    setSelectedSeatType(undefined);
+    setSelectedSeatAvailable(undefined);
 
     getSeats();
   };
