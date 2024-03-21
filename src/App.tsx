@@ -36,7 +36,7 @@ export default function App() {
               </RequireAuth>
             }
           />
-          <Route path="/shows/:movieId" element={<SeatSelection />} />
+          <Route path="/shows/:movieIdString" element={<SeatSelection />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/signup" element={<SignUpPage />} />
         </Routes>
