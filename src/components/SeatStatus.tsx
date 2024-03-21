@@ -6,7 +6,6 @@ export default function SeatStatus() {
   const [selectedSeat, setSelectedSeat] = useState({});
   const [selectedSeatType, setSelectedSeatType] = useState();
   const [selectedSeatAvailable, setSelectedSeatAvailable] = useState();
-  //const [seats, setSeats] = useState([]);
   const [filter, setFilter] = useState(1);
   const [rows, setRows] = useState<{ [key: string]: UISeat[] }>({});
 
@@ -56,7 +55,6 @@ export default function SeatStatus() {
   const getSeats = () => {
     getAllSeats().then((data) => {
       data = data.filter((seat) => seat.theater_id == filter);
-      //setSeats(data);
 
       const updatedRows = data.reduce((acc: { [key: string]: UISeat[] }, seat) => {
         if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
