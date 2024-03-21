@@ -1,7 +1,7 @@
 # Constants
 total_rows = 25
 seats_per_row = 16
-theater_id = 1
+theater_id = 3
 
 # Generate seat positions for all rows
 seat_positions = [(row, seat) for row in range(1, total_rows + 1) for seat in range(1, seats_per_row + 1)]

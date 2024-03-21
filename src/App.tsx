@@ -1,9 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AboutUsPage from "./pages/AboutUsPage";
-import GenresPage from "./pages/GenresPage";
 import LoginPage from "./pages/LoginPage";
-import LogoutPage from "./pages/LogoutPage";
 import SignUpPage from "./security/SignUp";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProgramPage from "./pages/ProgramPage";

@@ -193,12 +193,11 @@ async function handleSeat(seat: interfaces.Seat): Promise<interfaces.Seat> {
   }
 }
 
-async function deleteSeat(id: number): Promise<interfaces.Seat> {
+async function deleteSeat(id: number){
   try {
     const options = makeOptions("DELETE", null, true);
     const response = await fetch(SEAT_URL + "/" + id, options);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error deleting seat:", error);
     throw error;

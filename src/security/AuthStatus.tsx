@@ -4,7 +4,6 @@ import styles from "./AuthStatus.module.css"; // Assume you have this CSS module
 
 export default function AuthStatus() {
   const auth = useAuth();
-  console.log("auth.isLoggedIn() = ", auth.isLoggedIn());
   if (!auth.isLoggedIn()) {
     return (
       <div className={styles.authLinks}>
