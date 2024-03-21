@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { deleteSeat, getAllSeats, handleSeat } from "../services/apiFacade";
+import { UISeat } from "./SeatSelection";
 
 
 export default function SeatStatus() {
@@ -7,7 +8,8 @@ export default function SeatStatus() {
     const [selectedSeatType, setSelectedSeatType] = useState();
     const [selectedSeatAvailable, setSelectedSeatAvailable] = useState();
     const [seats, setSeats] = useState([]);
-    const [filter, setFilter] = useState(0);
+    const [filter, setFilter] = useState(1);
+    const [rows, setRows] = useState<{ [key: string]: UISeat[] }>({});
 
     const handleSeatSelect = (seat) => {
         setSelectedSeat(seat);
@@ -17,9 +19,8 @@ export default function SeatStatus() {
 
     useEffect(() => {
         getAllSeats().then((data) => {
-            data.sort((a, b) => a.theater_id - b.theater_id);
+            data = data.filter((seat) => seat.theater_id == filter);
             setSeats(data);
-            console.log(data);
         })}
     , []);
 
@@ -52,17 +53,13 @@ export default function SeatStatus() {
         setSelectedSeatType();
         setSelectedSeatAvailable();
 
-        getAllSeats().then((data) => {
-            data.sort((a, b) => a.theater_id - b.theater_id);
-            setSeats(data);
-        });
+        getSeats();
     }
 
     const handleFilter = (event) => {
         setFilter(event.target.value);
         if(event.target.value === "0"){
             getAllSeats().then((data) => {
-                data.sort((a, b) => a.theater_id - b.theater_id);
                 setSeats(data);
             });
         } else {
@@ -72,40 +69,35 @@ export default function SeatStatus() {
             });
         }
     }
-
-    const seatColor = (theater_id) => {
-        switch(theater_id){
-            case 1:
-                return "blue";
-            case 2:
-                return "yellow";
-            case 3:
-                return "red";
-            default:
-                return "black";
-        }
+    
+    const getSeats = () => {
+        getAllSeats().then((data) => {
+            data = data.filter((seat) => seat.theater_id == filter);
+            setSeats(data);
+        });
+        const updatedRows = seats.reduce((acc: { [key: string]: UISeat[] }, seat) => {
+            if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
+            acc[seat.seatRow].push(seat);
+            return acc;
+        }, {});
+        setRows(updatedRows);
     }
 
+ 
 
-    return (
+    useEffect(() => {
+        getSeats();
+    }, [seats, filter]);
+
+
+   return (
         <div>
             <h1>Seat Adminstration</h1>
-            <p>Blue seats: theater 1</p>
-            <p>Yellow seats: theater 2</p>
-            <p>Red seats: theater 3</p>
             <select onChange={handleFilter} value={filter}>
-                <option value="0">All</option>
                 <option value="1">Theater 1</option>
                 <option value="2">Theater 2</option>
                 <option value="3">Theater 3</option>
             </select>
-            <div>
-                {seats.map((seat) => (
-                    <button key={seat.id} onClick={() => handleSeatSelect(seat)} style={{color: seatColor(seat.theater_id)}}>
-                        {seat.seatRow+"-"+seat.seatNr}
-                    </button>
-                ))}
-            </div>
 
             {selectedSeat.id && (  
             <div>
@@ -134,6 +126,28 @@ export default function SeatStatus() {
                 <button onClick={handleDelete}>Delete</button>
             </div>
             )}
+            <div className="cinema-layout">
+            <div className="cinema-screen-container">
+            <svg viewBox="0 0 150 15" className="cinema-screen">
+            <path
+            d="M 0 9 Q 73 -3 143 9 Q 142 12 141 14 Q 73 4 2 14 Z"
+            style={{ fill: "#dcdcdc" }}
+            />
+            Sorry, your browser does not support inline SVG.
+            </svg>
+            <div className="screen-label">S C R E E N</div>
+            </div>
+            {Object.keys(rows).map((rowLabel) => (
+                <div key={rowLabel} className="row">
+                <div className="row-label">{rowLabel}</div>
+                {rows[rowLabel].map((seat) => (
+                <button key={seat.id} onClick={() => handleSeatSelect(seat)} style={{backgroundColor:seat.available? "green" : "red"}}>
+                {seat.seatNr}
+                </button>
+                ))}
+            </div>
+            ))}
+            </div>
         </div>
     );
 }
