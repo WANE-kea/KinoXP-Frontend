@@ -6,12 +6,14 @@ export default function AuthStatus() {
   const auth = useAuth();
   if (!auth.isLoggedIn()) {
     return (
-      <>
-      <NavLink to="/login" className={styles.loginLink}>
-        Login
-      </NavLink>
-      <NavLink to="/signup">Sign Up</NavLink>
-      </>
+      <div className={styles.authLinks}>
+        <NavLink to="/login" className={styles.loginLink}>
+          Login
+        </NavLink>
+        <NavLink to="/signup" className={styles.signupLink}>
+          Sign Up
+        </NavLink>
+      </div>
     );
   } else {
     return (
