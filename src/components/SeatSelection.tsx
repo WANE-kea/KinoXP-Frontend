@@ -47,11 +47,8 @@ const SeatSelection: React.FC = () => {
           setShowDetails(showData);
 
           // Fetch seats for the theater
-          //const seatsResponse = await fetch(`http://localhost:8080/theaters/${showData.theater_id}`);
           const seatsResponse = getTheaterById(showData.theater_id);
           const theaterData = await seatsResponse;
-          console.log(theaterData);
-
           const theaterSeats: Seat[] = theaterData.seats;
 
           // Create a set to track reserved seat IDs from all bookings for this show
