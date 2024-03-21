@@ -3,6 +3,7 @@ import MovieForm from "../components/MovieForm";
 import "./adminPage.css";
 import ShowForm from "../components/ShowForm";
 import CategoryForm from "../components/CategoryForm";
+import SeatStatus from "../components/SeatStatus";
 
 export default function AdminPage(){
     const [selectedView, setSelectedView] = useState("info");
@@ -29,6 +30,8 @@ export default function AdminPage(){
             </button>
             <button style={{ width: "100%", marginTop: "5px" }} onClick={() => handleSelected("createCategory")}>
               Create Category
+            <button style={{width:"100%",  marginTop:"5px"}} onClick={() => handleSelected("updateSeat")}>
+              Update Seat status
             </button>
           </>
         );
@@ -49,6 +52,7 @@ return (
             {selectedView == "createMovie" ? <MovieForm/> : null}
             {selectedView == "createShow" ? <ShowForm/> : null}
             {selectedView == "createCategory" ? <CategoryForm /> : null}
+            {selectedView == "updateSeat" ? <SeatStatus/> : null}
           </div>
         </div>
       </div>
