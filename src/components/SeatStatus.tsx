@@ -91,7 +91,7 @@ export default function SeatStatus() {
         <option value="3">Theater 3</option>
       </select>
 
-      {selectedSeat.id && (
+      {selectedSeat && selectedSeat.id && (
         <div>
           <h2>Selected Seat</h2>
           <p>ID: {selectedSeat.id}</p>
