@@ -158,13 +158,14 @@
   border-radius: 3px;
 }
 
-.reserved {
-  background-color: #830f0f;
+
+.seat.selected {
+  background-color: #706e7a;
   border-radius: 3px;
 }
 
-.selected {
-  background-color: #706e7a;
+.seat:disabled {
+  background-color: #ff0000;
   border-radius: 3px;
 }
 
@@ -215,6 +216,7 @@
 .seat.vip.selected {
   background-color: transparent;
 }
+
 
 /* Booking modal */
 .selection-modal {

@@ -28,15 +28,92 @@
     justify-content: space-between;
     align-items: center;
   }
-  
-  input[type="text"], input[type="file"] {
-    width: 60%;
-    padding: 5px;
-  }
     
   
   .img-preview {
     margin-top: 20px;
     max-width: 200px;
     height: auto;
+  }
+
+
+  .cinema-layout {
+    max-width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 17px;
+    padding: 3px;
+    background: black;
+  }
+  
+  .row {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .seat {
+    width: 25px;
+    height: 25px;
+    margin: 2px;
+    border: 1px solid #555;
+    border-radius: 2px;
+    position: relative;
+    background-color: #317029;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0rem;
+
+  }
+  
+  /* Add styles for seat numbers on hover */
+  .seat::after {
+    content: attr(data-number);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    color: black;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 1;
+  }
+  .row-label {
+    font-size: 1.2em;
+    color: #fff;
+    padding: 0 10px;
+  }
+  
+  /* Cinema Screen */
+  .cinema-screen-container {
+    margin-bottom: 4px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    top: -5px;
+    left: 15px;
+  }
+  
+  .cinema-screen {
+    width: 100%;
+    height: 10%;
+    display: block;
+  }
+  
+  .screen-label {
+    position: absolute;
+    top: 37%;
+    left: 47%;
+    transform: translate(-50%, -10px);
+    font-size: 1rem;
+    font-family: "Roboto Regular";
+    color: white;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 1px 10px;
+    border-radius: 5px;
+    z-index: 10;
   }

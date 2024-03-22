@@ -95,14 +95,13 @@ async function getCategoryById(id: number): Promise<interfaces.Category> {
   }
 }
 
-async function handleCategory(category: interfaces.Category): Promise<interfaces.Category> {
+async function handleCategory(category){
   try {
     const method = category.id ? "PUT" : "POST";
     const options = makeOptions(method, category, true);
     const url = category.id ? `${CATEGORY_URL}/${category.id}` : CATEGORY_URL;
     const response = await fetch(url, options);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error handling category:", error);
     throw error;
@@ -193,12 +192,11 @@ async function handleSeat(seat: interfaces.Seat): Promise<interfaces.Seat> {
   }
 }
 
-async function deleteSeat(id: number): Promise<interfaces.Seat> {
+async function deleteSeat(id: number){
   try {
     const options = makeOptions("DELETE", null, true);
     const response = await fetch(SEAT_URL + "/" + id, options);
-    const data = await response.json();
-    return data;
+    return response;
   } catch (error) {
     console.error("Error deleting seat:", error);
     throw error;

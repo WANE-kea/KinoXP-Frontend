@@ -6,15 +6,14 @@ export interface Seat {
   available: boolean;
   type: string;
   isSelected?: boolean;
-  isReserved?: boolean; 
+  isReserved?: boolean;
 }
-
 
 // ShowDetails interface to include bookings
 export interface ShowDetails {
   id: number;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   movie: {
     id: number;
     title: string;

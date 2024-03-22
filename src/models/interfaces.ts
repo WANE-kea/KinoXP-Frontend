@@ -46,11 +46,13 @@ interface Show {
   startTime: Date;
   endTime: Date;
   movie: Movie;
-  theater: Theater[];
+  theater_id: number;
+  bookings: Booking[];
 }
 interface Theater {
   id: number;
   name: string;
+  seats: Seat[];
 }
 interface Customer {
   firstName: string;
