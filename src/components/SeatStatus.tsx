@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { deleteSeat, getAllSeats, handleSeat } from "../services/apiFacade";
 import { UISeat } from "./SeatSelection";
+import { Seat } from "../models/interfaces";
 
 export default function SeatStatus() {
-  const [selectedSeat, setSelectedSeat] = useState({});
+  //const [selectedSeat, setSelectedSeat] = useState({});
+  const [selectedSeat, setSelectedSeat] = useState<Seat | null>(null);
   const [selectedSeatType, setSelectedSeatType] = useState();
   const [selectedSeatAvailable, setSelectedSeatAvailable] = useState();
   const [filter, setFilter] = useState(1);
@@ -34,13 +36,13 @@ export default function SeatStatus() {
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete this seat?")) {
-      deleteSeat(selectedSeat.id);
+      deleteSeat(parseInt(selectedSeat.id));
       resetForm();
     }
   };
 
   const resetForm = () => {
-    setSelectedSeat({});
+    setSelectedSeat(null);
     setSelectedSeatType(undefined);
     setSelectedSeatAvailable(undefined);
 
@@ -58,7 +60,17 @@ export default function SeatStatus() {
 
       const updatedRows = data.reduce((acc: { [key: string]: UISeat[] }, seat) => {
         if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
-        acc[seat.seatRow].push(seat);
+        const uiSeat: UISeat = {
+          id: seat.id,
+          seatRow: seat.seatRow,
+          seatNr: seat.seatNr,
+          available: seat.available,
+          //theater_id: seat.theater_id,
+          type: seat.type,
+          isSelected: false,
+          isReserved: false,
+        };
+        acc[seat.seatRow].push(uiSeat);
         return acc;
       }, {});
 

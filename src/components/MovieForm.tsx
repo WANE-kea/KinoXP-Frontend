@@ -1,18 +1,30 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { getAllCategories, handleMovie } from "../services/apiFacade";
+import { Movie } from "../models/interfaces";
 
 export default function MovieForm() {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [movie, setMovie] = useState({
+  // const [movie, setMovie] = useState({
+  //   title: "",
+  //   description: "",
+  //   duration: "",
+  //   categories: selectedCategories,
+  //   posterUrl: "",
+  //   posterBase64: "",
+  //   trailerUrl: "",
+  //   ageLimit: "",
+  // });
+  const [movie, setMovie] = useState<Movie>({
+    id: null,
     title: "",
     description: "",
-    duration: "",
-    categories: selectedCategories,
-    posterUrl: "",
-    posterBase64: "",
-    trailerUrl: "",
-    ageLimit: "",
+    posterBase64: null,
+    trailerUrl: null,
+    posterUrl: null,
+    ageLimit: 0,
+    duration: 0,
+    categories: [],
   });
 
   useEffect(() => {
@@ -60,14 +72,15 @@ export default function MovieForm() {
       if (res) {
         event.target.reset();
         setMovie({
+          id: null,
           title: "",
           description: "",
-          duration: "",
+          duration: 0,
           categories: [],
           posterUrl: "",
           posterBase64: "",
           trailerUrl: "",
-          ageLimit: "",
+          ageLimit: 0,
         });
         showFeedBack("Movie created", true);
       }

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { getAllMovies, getAllTheaters, handleShow } from "../services/apiFacade";
+import { Show } from "../models/interfaces";
 
 export default function ShowForm() {
   const [movies, setMovies] = useState([]);
   const [theaters, setTheaters] = useState([]);
   const [endTime, setEndTime] = useState(undefined);
-  const [show, setShow] = useState({
-    startTime: "",
+  const [show, setShow] = useState<Show>({
+    id: null,
+    startTime: new Date(),
     endTime: endTime,
-    movie: { id: 0 },
+    movie: { id: 0, title: "", description: "", posterBase64: null, trailerUrl: null, posterUrl: null, ageLimit: 0, duration: 0, categories: [] },
     theater_id: 0,
+    bookings: [],
   });
 
   useEffect(() => {
@@ -31,10 +34,22 @@ export default function ShowForm() {
       if (res) {
         event.target.reset();
         setShow({
-          startTime: "",
-          endTime: Date.now(),
-          movie: { id: 0 },
+          id: null,
+          startTime: new Date(),
+          endTime: endTime,
+          movie: {
+            id: 0,
+            title: "",
+            description: "",
+            posterBase64: null,
+            trailerUrl: null,
+            posterUrl: null,
+            ageLimit: 0,
+            duration: 0,
+            categories: [],
+          },
           theater_id: 0,
+          bookings: [],
         });
         setEndTime(undefined);
       }
