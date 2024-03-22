@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { deleteSeat, getAllSeats, handleSeat } from "../services/apiFacade";
 import { UISeat } from "./SeatSelection";
+import { Seat } from "../models/interfaces";
 
 export default function SeatStatus() {
-  const [selectedSeat, setSelectedSeat] = useState({});
+  //const [selectedSeat, setSelectedSeat] = useState({});
+  const [selectedSeat, setSelectedSeat] = useState<Seat | null>(null);
   const [selectedSeatType, setSelectedSeatType] = useState();
   const [selectedSeatAvailable, setSelectedSeatAvailable] = useState();
-  const [seats, setSeats] = useState([]);
   const [filter, setFilter] = useState(1);
   const [rows, setRows] = useState<{ [key: string]: UISeat[] }>({});
 
@@ -35,15 +36,15 @@ export default function SeatStatus() {
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete this seat?")) {
-      deleteSeat(selectedSeat.id);
+      deleteSeat(parseInt(selectedSeat.id));
       resetForm();
     }
   };
 
   const resetForm = () => {
-    setSelectedSeat({});
-    setSelectedSeatType();
-    setSelectedSeatAvailable();
+    setSelectedSeat(null);
+    setSelectedSeatType(undefined);
+    setSelectedSeatAvailable(undefined);
 
     getSeats();
   };
@@ -56,11 +57,20 @@ export default function SeatStatus() {
   const getSeats = () => {
     getAllSeats().then((data) => {
       data = data.filter((seat) => seat.theater_id == filter);
-      setSeats(data);
 
       const updatedRows = data.reduce((acc: { [key: string]: UISeat[] }, seat) => {
         if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
-        acc[seat.seatRow].push(seat);
+        const uiSeat: UISeat = {
+          id: seat.id,
+          seatRow: seat.seatRow,
+          seatNr: seat.seatNr,
+          available: seat.available,
+          //theater_id: seat.theater_id,
+          type: seat.type,
+          isSelected: false,
+          isReserved: false,
+        };
+        acc[seat.seatRow].push(uiSeat);
         return acc;
       }, {});
 
@@ -81,7 +91,7 @@ export default function SeatStatus() {
         <option value="3">Theater 3</option>
       </select>
 
-      {selectedSeat.id && (
+      {selectedSeat && selectedSeat.id && (
         <div>
           <h2>Selected Seat</h2>
           <p>ID: {selectedSeat.id}</p>

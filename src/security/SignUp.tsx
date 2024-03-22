@@ -3,7 +3,7 @@ import { Customer } from "../models/interfaces";
 import { authProvider, SignUpRequest } from "../services/authFacade";
 import { useAuth } from "./AuthProvider";
 import { useNavigate } from "react-router-dom";
-import './SignUp.css';
+import "./SignUp.css";
 
 const SignUp = () => {
   const [customer, setCustomer] = useState<Customer>({
@@ -69,7 +69,7 @@ const SignUp = () => {
           const isMiddleName = key === "middleName";
           return (
             <div key={key} className="formGroup">
-              <label className="label">{`${key[0].toUpperCase()}${key.slice(1).replace(/([A-Z])/g, ' $1')}:`}</label>
+              <label className="label">{`${key[0].toUpperCase()}${key.slice(1).replace(/([A-Z])/g, " $1")}:`}</label>
               <input
                 className="input"
                 type={key === "password" ? "password" : key === "email" ? "email" : key === "phone" ? "number" : "text"}
@@ -89,6 +89,5 @@ const SignUp = () => {
     </div>
   );
 };
-
 
 export default SignUp;
