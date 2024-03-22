@@ -3,5 +3,10 @@
 # Ignore all files in the node_modules directory
 node_modules/
 
+dist/
+
 .env
 .env.local
+dist/
+DS_Store
+.vscode/

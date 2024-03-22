@@ -1,0 +1,23 @@
+.showtimes-button button {
+  background-color: green;
+  color: white;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  margin: 10px;
+}
+
+.showtimes-button button:hover {
+  background-color: darkgreen;
+}
+
+.showtimes-button .show-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
