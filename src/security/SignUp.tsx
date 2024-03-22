@@ -45,14 +45,16 @@ const SignUp = () => {
         ...customer,
         username: customer.email,
       } as SignUpRequest);
-      auth
-        .signIn({
-          username: customer.email,
-          password: customer.password,
-        })
-        .then(() => {
-          navigate("/");
-        });
+      response &&
+        auth
+          .signIn({
+            username: customer.email,
+            password: customer.password,
+          })
+          .then(() => {
+            navigate("/");
+          });
+
     } catch (error) {
       console.error(error);
     }

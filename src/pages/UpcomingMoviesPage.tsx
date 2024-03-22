@@ -14,10 +14,9 @@ export default function UpcomingMoviesPage() {
   return (
     <>
       <div style={{ padding: "20px" }}>
-        <h1>Upcoming Movies</h1>
-        <p>Here you will find a list of movies that will be screened in the cinema in the near future.</p>
+        <h1>Upcoming movies</h1>
+        <MovieGrid showMovieInfo={showMovieInfo} handleTicketPurchase={handleTicketPurchase} />
       </div>
-      <MovieGrid showMovieInfo={showMovieInfo} handleTicketPurchase={handleTicketPurchase} />
     </>
   );
 }
