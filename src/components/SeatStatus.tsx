@@ -1,15 +1,28 @@
 import { useEffect, useState } from "react";
 import { deleteSeat, getAllSeats, handleSeat } from "../services/apiFacade";
 import { UISeat } from "./SeatSelection";
+import { Seat } from "../models/interfaces";
 
 
 export default function SeatStatus() {
-    const [selectedSeat, setSelectedSeat] = useState({});
+    const emptySeat: Seat = {
+        id: 0,
+        seatNr: 0,
+        seatRow: "",
+        type: "REGULAR",
+        available: true,
+        theater_id: 1,
+    };
+
+
+    const [selectedSeat, setSelectedSeat] = useState<Seat>(emptySeat);
     const [selectedSeatType, setSelectedSeatType] = useState();
     const [selectedSeatAvailable, setSelectedSeatAvailable] = useState();
-    const [seats, setSeats] = useState([]);
     const [filter, setFilter] = useState(1);
-    const [rows, setRows] = useState<{ [key: string]: UISeat[] }>({});
+    const [rows, setRows] = useState<{ [key: string]: Seat[] }>([]);
+
+
+
 
     const handleSeatSelect = (seat) => {
         setSelectedSeat(seat);
@@ -57,9 +70,8 @@ export default function SeatStatus() {
 const getSeats = () => {
     getAllSeats().then((data) => {
         data = data.filter((seat) => seat.theater_id == filter);
-        setSeats(data);
 
-        const updatedRows = data.reduce((acc: { [key: string]: UISeat[] }, seat) => {
+        const updatedRows = data.reduce((acc: { [key: string]: Seat[] }, seat) => {
             if (!acc[seat.seatRow]) acc[seat.seatRow] = [];
             acc[seat.seatRow].push(seat);
             return acc;
@@ -72,7 +84,7 @@ const getSeats = () => {
 
     useEffect(() => {
         getSeats();
-    }, []);
+    }, [filter]);
 
 
    return (
@@ -84,7 +96,7 @@ const getSeats = () => {
                 <option value="3">Theater 3</option>
             </select>
 
-            {selectedSeat.id && (  
+            {selectedSeat.id > 0 && (  
             <div>
                 <h2>Selected Seat</h2>
                 <p>ID: {selectedSeat.id}</p>

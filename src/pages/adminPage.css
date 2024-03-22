@@ -29,7 +29,41 @@
     align-items: center;
   }
     
+  input[type="text"], select, input[type="date"], input[type="number"], input[type="time"] {
+    width: 50%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
   
+  input:invalid {
+    border: 2px solid red;
+  }
+
+  input:valid {
+    border: 2px solid green;
+  }
+
+  select {
+    width: 50%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  select:invalid {
+    border: 2px solid red;
+  }
+
+  select:valid {
+    border: 2px solid green;
+  }
+
+
   .img-preview {
     margin-top: 20px;
     max-width: 200px;

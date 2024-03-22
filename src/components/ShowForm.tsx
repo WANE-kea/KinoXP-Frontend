@@ -1,13 +1,14 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllMovies, getAllTheaters, handleShow } from "../services/apiFacade";
 
 export default function ShowForm(){
     const [movies, setMovies] = useState([]);
     const [theaters, setTheaters] = useState([]);
-    const [endTime, setEndTime] = useState(undefined);
+    const [endTime, setEndTime] = useState(new Date());
+    const [manualEndTime, setManualEndTime] = useState(false);
     const [show, setShow] = useState({
-        startTime: "",
-        endTime: endTime,
+        startTime: new Date(),
+        endTime: new Date(),
         movie: {id:0},
         theater_id: 0,
       });
@@ -32,7 +33,7 @@ export default function ShowForm(){
             if(res) {
                 event.target.reset();
                 setShow({
-                    startTime: "",
+                    startTime: Date.now(),
                     endTime: Date.now(),
                     movie: {id:0},
                     theater_id: 0,
@@ -46,6 +47,7 @@ export default function ShowForm(){
         }
 
     }
+
 
     const showFeedBack = (message, success) => {
         const div = document.createElement("div");
@@ -64,26 +66,43 @@ export default function ShowForm(){
       }
 
       const handleChange = (event) => {
-        setShow((prev) => ({
-          ...prev,
-          [event.target.name]: event.target.name === "movie" ? {id: Number(event.target.value)} : Number(event.target.value),
-        }));
-      }
-
-
-        const handleTimeChange = (event) => {
-            setShow((prev) => ({
+        try {
+          setShow((prev) => ({
             ...prev,
-            startTime: event.target.value,
-            }));
-            setEndTime(calcEndTime());
+            [event.target.name]: event.target.name === "movie" ? {id: Number(event.target.value)} : Number(event.target.value),
+          }));
+          if(event.target.name === "movie" && event.target.value !== ""){
+            if(!show.startTime || isNaN(new Date(show.startTime).getTime())) throw new Error("Invalid date");
+              const movieDuration = movies.find((movie) => movie.id == event.target.value).duration;
+              setEndTime(calcEndTime(show.startTime, movieDuration));
+          }
+        } catch (error) {
+          return;
         }
 
-      const calcEndTime = ()=>{
-        const startTime = new Date(show.startTime).getTime();
-        const endTime = show.movie.id === 0 ? Date.now() : startTime + movies.find((movie) => movie.id === show.movie.id).duration * 60000;
-        return new Date(endTime);
-      };
+      }
+
+      const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+              if(!event.target.value || isNaN(new Date(event.target.value).getTime())) throw new Error("Invalid date");
+              const movieDuration = Number(movies.find((movie) => movie.id === show.movie.id).duration);
+              const newEndTime = calcEndTime(new Date(event.target.value), movieDuration);
+              setEndTime(newEndTime);
+      
+          setShow((prevShow) => ({
+              ...prevShow,
+              startTime: new Date(event.target.value),
+              endTime: newEndTime,
+          }));
+        } catch (error) {
+          console.log(error);
+        }
+    };
+
+    const calcEndTime = (startTime, duration) => {
+      const newEndTime = new Date(startTime);;
+      return new Date(newEndTime.setMinutes(newEndTime.getMinutes() + duration));
+    }
 
 
     return (
@@ -93,7 +112,7 @@ export default function ShowForm(){
                 <label>
                     Movie:
                     <select name="movie" onChange={handleChange} required>
-                    <option>Select Movie</option>
+                    <option value={""}>Select Movie</option>
                         {movies.map((movie) => (
                             <option key={movie.id} value={movie.id}>
                                 {movie.title}
@@ -103,16 +122,20 @@ export default function ShowForm(){
 
                 <label>
                     Start time:
-                    <input type="datetime-local" name="startTime" onChange={handleTimeChange} required/>
+                    <input type="datetime-local" min={new Date().toISOString().slice(0,16)} name="startTime" onChange={handleTimeChange} required/>
                 </label>
                 <label>
                     End time:
-                    <input type="text" name="endTime" value={endTime} disabled required/>
+                    <input type="datetime-local" name="endTime" min={new Date(show.startTime).toISOString().slice(0,16)} value={new Date(endTime).toISOString().slice(0,16)} onChange={(event)=>setEndTime(new Date(event.target.value))} required disabled={!manualEndTime}/>
+                </label>
+                <label>
+                    Set end time manually?
+                    <input type="checkbox" name="manualEndTime" onChange={() => setManualEndTime(!manualEndTime)} checked={manualEndTime} />
                 </label>
                 <label>
                     Theater:
                     <select name="theater_id" onChange={handleChange} required>
-                        <option>Select Theater</option>
+                        <option value={""}>Select Theater</option>
                         {theaters.map((theater) => (
                             <option key={theater.id} value={theater.id}>
                                 {theater.name}
@@ -122,6 +145,7 @@ export default function ShowForm(){
 
                 <button type="submit">Create show</button>
             </form>
+            <p>{new Date(endTime).toISOString().slice(0,16)}</p>
         </>
     );
 }

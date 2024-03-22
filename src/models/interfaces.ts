@@ -5,7 +5,7 @@ interface Booking {
   seats: Seat[];
 }
 interface Category {
-  id: number | null;
+  id?: number;
   name: string;
 }
 interface Customer {
@@ -20,7 +20,7 @@ interface Customer {
 }
 
 interface Movie {
-  id: number | null;
+  id?: number;
   title: string;
   description: string;
   posterBase64: string | null;
@@ -32,7 +32,7 @@ interface Movie {
 }
 
 interface Seat {
-  id: string;
+  id?: number;
   seatRow: string;
   seatNr: number;
   available: boolean;
