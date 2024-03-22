@@ -38,7 +38,7 @@ interface Seat {
   available: boolean;
   theater_id: number;
   type: string;
-  isSelected?: boolean; // Optional property to track selection state
+  isSelected?: boolean;
 }
 
 interface Show {
