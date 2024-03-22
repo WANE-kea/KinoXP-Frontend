@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/interfaces";
 import { getAllMovies } from "../services/apiFacade";
-import BuyTicketsButton from "./BuyTicketsButton";
+import ShowtimesButton from "./ShowtimesButton";
 
 export default function MovieGrid({ handleTicketPurchase, showMovieInfo }) {
   const [movies, setMovies] = useState([]);
@@ -38,9 +38,9 @@ export default function MovieGrid({ handleTicketPurchase, showMovieInfo }) {
               <span key={category + movie.id}>{category} </span>
             ))}
           </p>
-          <BuyTicketsButton handleTicketPurchase={handleTicketPurchase} showId={movie.id} />
           <button onClick={() => showMovieInfo(movie.id)}>More info</button>
-          <button onClick={() => handleTicketPurchase(movie.id)}>Buy tickets</button>
+          <ShowtimesButton movieId={movie.id} handleTicketPurchase={handleTicketPurchase} />{" "}
+          {/* <button onClick={() => handleTicketPurchase(movie.id)}>Buy tickets</button> */}
         </div>
       ))}
     </div>
