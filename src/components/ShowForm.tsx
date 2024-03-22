@@ -45,10 +45,8 @@ export default function ShowForm(){
                 };
                 showFeedBack("Show created", true);
         } catch (error) {
-            console.log(error);
-            
+            console.log(error);   
         }
-
     }
 
 
