@@ -23,9 +23,9 @@ interface Movie {
   id?: number;
   title: string;
   description: string;
-  posterBase64: string | null;
-  trailerUrl: string | null;
-  posterUrl: string | null;
+  posterBase64?: string;
+  trailerUrl?: string;
+  posterUrl?: string;
   ageLimit: number;
   duration: number;
   categories: string[];
@@ -42,9 +42,8 @@ interface Seat {
 }
 
 interface Show {
-  id: number | null;
+  id?: number;
   startTime: Date;
-  endTime: Date;
   movie: Movie;
   theater_id: number;
   bookings: Booking[];
@@ -54,17 +53,6 @@ interface Theater {
   name: string;
   seats: Seat[];
 }
-interface Customer {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
-  email: string;
-  password: string;
-  streetAddress: string;
-  streetNo: string;
-  zip: string;
-  country: string;
-  phone: string;
-}
+
 
 export type { Booking, Category, Movie, Seat, Show, Theater, Customer };

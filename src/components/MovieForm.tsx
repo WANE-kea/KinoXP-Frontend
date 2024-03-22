@@ -1,31 +1,22 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { getAllCategories, handleMovie } from "../services/apiFacade";
-import { Movie } from "../models/interfaces";
+import { Category, Movie } from "../models/interfaces";
 
 export default function MovieForm() {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [movie, setMovie] = useState({
-  //   title: "",
-  //   description: "",
-  //   duration: "",
-  //   categories: selectedCategories,
-  //   posterUrl: "",
-  //   posterBase64: "",
-  //   trailerUrl: "",
-  //   ageLimit: "",
-  // });
-  const [movie, setMovie] = useState<Movie>({
-    id: null,
+  const emptyMovie: Movie = {
     title: "",
     description: "",
-    posterBase64: null,
-    trailerUrl: null,
-    posterUrl: null,
-    ageLimit: 0,
     duration: 0,
-    categories: [],
-  });
+    categories: [""],
+    posterUrl: "",
+    posterBase64: "",
+    trailerUrl: "",
+    ageLimit: 0,
+  };
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [movie, setMovie] = useState<Movie>(emptyMovie);
 
   useEffect(() => {
     getAllCategories().then((data) => {
@@ -34,25 +25,19 @@ export default function MovieForm() {
   }, []);
 
   const handleCategory = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (selectedCategories.includes(value)) {
-      setSelectedCategories((prev) => {
-        const newCategories = prev.filter((c) => c !== value);
-        setMovie((prevMovie) => ({ ...prevMovie, categories: newCategories }));
-        return newCategories;
-      });
+    if (selectedCategories.includes({name:event.target.value})) {
+      setSelectedCategories((prev) => prev.filter((c) => c.name !== event.target.value));
+      setMovie((prevMovie) => ({ ...prevMovie, categories: selectedCategories.map((category)=>{return category.name}) }));
     } else {
-      setSelectedCategories((prev) => {
-        const newCategories = [...prev, value];
-        setMovie((prevMovie) => ({ ...prevMovie, categories: newCategories }));
-        return newCategories;
-      });
-    }
-  };
+      setSelectedCategories((prev) => [...prev, {name: event.target.value}]);
+      setMovie((prevMovie) => ({ ...prevMovie, categories: selectedCategories.map((category)=>{return category.name}) }));
+      };
+  }
 
-  const handleBase64 = (file) => {
+  const handleBase64 = (event:ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file.target.files[0]);
+    if (!event.currentTarget.files) return;
+    reader.readAsDataURL(event.currentTarget.files[0]);
     reader.onload = () => {
       setMovie((prev) => ({ ...prev, posterBase64: reader.result as string }));
     };
@@ -65,23 +50,13 @@ export default function MovieForm() {
     }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event:any) => {
     event.preventDefault();
     try {
       const res = await handleMovie(movie);
       if (res) {
         event.target.reset();
-        setMovie({
-          id: null,
-          title: "",
-          description: "",
-          duration: 0,
-          categories: [],
-          posterUrl: "",
-          posterBase64: "",
-          trailerUrl: "",
-          ageLimit: 0,
-        });
+        setMovie(emptyMovie);
         showFeedBack("Movie created", true);
       }
     } catch (error) {
@@ -89,7 +64,7 @@ export default function MovieForm() {
     }
   };
 
-  const showFeedBack = (message, success) => {
+  const showFeedBack = (message:string, success:boolean) => {
     const div = document.createElement("div");
     div.textContent = message;
     div.style.position = "fixed";

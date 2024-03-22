@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { deleteSeat, getAllSeats, handleSeat } from "../services/apiFacade";
-import { UISeat } from "./SeatSelection";
 import { Seat } from "../models/interfaces";
 
 
@@ -16,29 +15,29 @@ export default function SeatStatus() {
 
 
     const [selectedSeat, setSelectedSeat] = useState<Seat>(emptySeat);
-    const [selectedSeatType, setSelectedSeatType] = useState();
-    const [selectedSeatAvailable, setSelectedSeatAvailable] = useState();
+    const [selectedSeatType, setSelectedSeatType] = useState("REGULAR");
+    const [selectedSeatAvailable, setSelectedSeatAvailable] = useState<boolean>();
     const [filter, setFilter] = useState(1);
-    const [rows, setRows] = useState<{ [key: string]: Seat[] }>([]);
+    const [rows, setRows] = useState<{ [key: string]: Seat[] }>({});
 
 
 
 
-  const handleSeatSelect = (seat) => {
+  const handleSeatSelect = (seat:Seat) => {
     setSelectedSeat(seat);
     setSelectedSeatType(seat.type);
     setSelectedSeatAvailable(seat.available);
   };
 
-  const handleChange = (event) => {
-    if (event.target.name === "available") {
-      setSelectedSeatAvailable(event.target.checked);
+const handleChange = (event:ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (event.target.name === "available" && event.target.type === "checkbox") {
+        setSelectedSeatAvailable((event.target as HTMLInputElement).checked);
     } else if (event.target.name === "type") {
-      setSelectedSeatType(event.target.value);
+        setSelectedSeatType(event.target.value);
     }
 
-    setSelectedSeat({ ...selectedSeat, [event.target.name]: event.target.type === "checkbox" ? event.target.checked : event.target.value });
-  };
+    setSelectedSeat({ ...selectedSeat, [event.target.name]: event.target.type === "checkbox" ? (event.target as HTMLInputElement).checked : event.target.value });
+};
 
   const handleSubmit = () => {
     if (confirm("Are you sure you want to save changes?")) {
@@ -49,21 +48,24 @@ export default function SeatStatus() {
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete this seat?")) {
-      deleteSeat(parseInt(selectedSeat.id));
-      resetForm();
+        if(selectedSeat.id) {
+            deleteSeat(selectedSeat.id);
+            resetForm();
+        } else
+            alert("No seat selected");
     }
   };
 
   const resetForm = () => {
-    setSelectedSeat(null);
-    setSelectedSeatType(undefined);
-    setSelectedSeatAvailable(undefined);
+    setSelectedSeat(emptySeat);
+    setSelectedSeatType("REGULAR");
+    setSelectedSeatAvailable(true);
 
     getSeats();
   };
 
-  const handleFilter = (event) => {
-    setFilter(event.target.value);
+  const handleFilter = (event:ChangeEvent<HTMLSelectElement>) => {
+    setFilter(Number(event.target.value));
     getSeats();
   };
 
@@ -95,7 +97,7 @@ export default function SeatStatus() {
         <option value="3">Theater 3</option>
       </select>
 
-            {selectedSeat.id > 0 && (  
+            {selectedSeat.id!=undefined && selectedSeat.id > 0 && (  
             <div>
                 <h2>Selected Seat</h2>
                 <p>ID: {selectedSeat.id}</p>

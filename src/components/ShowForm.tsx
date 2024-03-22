@@ -1,19 +1,27 @@
-import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getAllMovies, getAllTheaters, handleShow } from "../services/apiFacade";
-import { Show } from "../models/interfaces";
+import { Movie, Show, Theater } from "../models/interfaces";
 
 export default function ShowForm(){
-    const [movies, setMovies] = useState([]);
-    const [theaters, setTheaters] = useState([]);
-    const [endTime, setEndTime] = useState(new Date());
-    const [manualEndTime, setManualEndTime] = useState(false);
-    const [show, setShow] = useState({
-        startTime: new Date(),
-        endTime: new Date(),
-        movie: {id:0},
-        theater_id: 0,
-      });
+  const emptyShow: Show = {
+    startTime: new Date(),
+    movie: {
+      title: "",
+      description: "",
+      posterBase64: "",
+      trailerUrl: "",
+      posterUrl: "",
+      ageLimit: 0,
+      duration: 0,
+      categories: []
+    },
+    theater_id: 0,
+    bookings: [],
+  }
+
+    const [movies, setMovies] = useState<Movie[]>([]);
+    const [theaters, setTheaters] = useState<Theater[]>([]);
+    const [show, setShow] = useState<Show>(emptyShow);
     
 
   useEffect(() => {
@@ -28,19 +36,12 @@ export default function ShowForm(){
     });
   }, []);
 
-      const handleSubmit = async (event) => {
+      const handleSubmit = async (event:any) => {
         event.preventDefault();
         try {
             const res =  await handleShow(show);
             if(res) {
-                event.target.reset();
-                setShow({
-                    startTime: Date.now(),
-                    endTime: Date.now(),
-                    movie: {id:0},
-                    theater_id: 0,
-                  });
-                setEndTime(undefined);
+                setShow(emptyShow);
                 };
                 showFeedBack("Show created", true);
         } catch (error) {
@@ -51,7 +52,7 @@ export default function ShowForm(){
     }
 
 
-  const showFeedBack = (message, success) => {
+  const showFeedBack = (message:string, success:boolean) => {
     const div = document.createElement("div");
     div.textContent = message;
     div.style.position = "fixed";
@@ -67,45 +68,27 @@ export default function ShowForm(){
     }, 5000);
   };
 
-      const handleChange = (event) => {
-        try {
+      const handleChange = (event:ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
           setShow((prev) => ({
             ...prev,
             [event.target.name]: event.target.name === "movie" ? {id: Number(event.target.value)} : Number(event.target.value),
           }));
-          if(event.target.name === "movie" && event.target.value !== ""){
-            if(!show.startTime || isNaN(new Date(show.startTime).getTime())) throw new Error("Invalid date");
-              const movieDuration = movies.find((movie) => movie.id == event.target.value).duration;
-              setEndTime(calcEndTime(show.startTime, movieDuration));
-          }
-        } catch (error) {
-          return;
-        }
-
       }
 
       const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         try {
-              if(!event.target.value || isNaN(new Date(event.target.value).getTime())) throw new Error("Invalid date");
-              const movieDuration = Number(movies.find((movie) => movie.id === show.movie.id).duration);
-              const newEndTime = calcEndTime(new Date(event.target.value), movieDuration);
-              setEndTime(newEndTime);
+          if(!event.target.value || isNaN(new Date(event.target.value).getTime())) throw new Error("Invalid date");
+          const startTime = new Date(event.target.value);
       
           setShow((prevShow) => ({
               ...prevShow,
-              startTime: new Date(event.target.value),
-              endTime: newEndTime,
+              startTime: startTime,
           }));
         } catch (error) {
           console.log(error);
         }
-    };
-
-    const calcEndTime = (startTime, duration) => {
-      const newEndTime = new Date(startTime);;
-      return new Date(newEndTime.setMinutes(newEndTime.getMinutes() + duration));
-    }
-
+      };
+      
 
     return (
         <>
@@ -127,14 +110,6 @@ export default function ShowForm(){
                     <input type="datetime-local" min={new Date().toISOString().slice(0,16)} name="startTime" onChange={handleTimeChange} required/>
                 </label>
                 <label>
-                    End time:
-                    <input type="datetime-local" name="endTime" min={new Date(show.startTime).toISOString().slice(0,16)} value={new Date(endTime).toISOString().slice(0,16)} onChange={(event)=>setEndTime(new Date(event.target.value))} required disabled={!manualEndTime}/>
-                </label>
-                <label>
-                    Set end time manually?
-                    <input type="checkbox" name="manualEndTime" onChange={() => setManualEndTime(!manualEndTime)} checked={manualEndTime} />
-                </label>
-                <label>
                     Theater:
                     <select name="theater_id" onChange={handleChange} required>
                         <option value={""}>Select Theater</option>
@@ -147,7 +122,7 @@ export default function ShowForm(){
 
                 <button type="submit">Create show</button>
             </form>
-            <p>{new Date(endTime).toISOString().slice(0,16)}</p>
+            
         </>
     );
 }
