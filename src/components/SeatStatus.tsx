@@ -24,50 +24,50 @@ export default function SeatStatus() {
 
 
 
-    const handleSeatSelect = (seat) => {
-        setSelectedSeat(seat);
-        setSelectedSeatType(seat.type);
-        setSelectedSeatAvailable(seat.available);
-    };
+  const handleSeatSelect = (seat) => {
+    setSelectedSeat(seat);
+    setSelectedSeatType(seat.type);
+    setSelectedSeatAvailable(seat.available);
+  };
 
-    const handleChange = (event) => {
-        if(event.target.name === "available"){
-           setSelectedSeatAvailable(event.target.checked);
-        }else if(event.target.name === "type") {
-            setSelectedSeatType(event.target.value);
-        }
-
-        setSelectedSeat({...selectedSeat, [event.target.name]: event.target.type === "checkbox" ? event.target.checked : event.target.value});
+  const handleChange = (event) => {
+    if (event.target.name === "available") {
+      setSelectedSeatAvailable(event.target.checked);
+    } else if (event.target.name === "type") {
+      setSelectedSeatType(event.target.value);
     }
 
-    const handleSubmit = () => {
-        if(confirm("Are you sure you want to save changes?")){
-            handleSeat(selectedSeat);
-            resetForm();
-        };
-    }
+    setSelectedSeat({ ...selectedSeat, [event.target.name]: event.target.type === "checkbox" ? event.target.checked : event.target.value });
+  };
 
-    const handleDelete = () => {
-        if(confirm("Are you sure you want to delete this seat?")){
-            deleteSeat(selectedSeat.id);
-            resetForm();
-        };
+  const handleSubmit = () => {
+    if (confirm("Are you sure you want to save changes?")) {
+      handleSeat(selectedSeat);
+      resetForm();
     }
+  };
 
-    const resetForm = () => {
-        setSelectedSeat({});
-        setSelectedSeatType();
-        setSelectedSeatAvailable();
-
-        getSeats();
+  const handleDelete = () => {
+    if (confirm("Are you sure you want to delete this seat?")) {
+      deleteSeat(parseInt(selectedSeat.id));
+      resetForm();
     }
+  };
 
-    const handleFilter = (event) => {
-        setFilter(event.target.value);
-        getSeats();
-    }
-    
-const getSeats = () => {
+  const resetForm = () => {
+    setSelectedSeat(null);
+    setSelectedSeatType(undefined);
+    setSelectedSeatAvailable(undefined);
+
+    getSeats();
+  };
+
+  const handleFilter = (event) => {
+    setFilter(event.target.value);
+    getSeats();
+  };
+
+  const getSeats = () => {
     getAllSeats().then((data) => {
         data = data.filter((seat) => seat.theater_id == filter);
 
@@ -77,24 +77,23 @@ const getSeats = () => {
             return acc;
         }, {});
 
-        setRows(updatedRows);
+      setRows(updatedRows);
     });
-}
-
+  };
 
     useEffect(() => {
         getSeats();
     }, [filter]);
 
 
-   return (
-        <div>
-            <h1>Seat Adminstration</h1>
-            <select onChange={handleFilter} value={filter}>
-                <option value="1">Theater 1</option>
-                <option value="2">Theater 2</option>
-                <option value="3">Theater 3</option>
-            </select>
+  return (
+    <div>
+      <h1>Seat Adminstration</h1>
+      <select onChange={handleFilter} value={filter}>
+        <option value="1">Theater 1</option>
+        <option value="2">Theater 2</option>
+        <option value="3">Theater 3</option>
+      </select>
 
             {selectedSeat.id > 0 && (  
             <div>
@@ -131,19 +130,24 @@ const getSeats = () => {
             style={{ fill: "#dcdcdc" }}
             />
             Sorry, your browser does not support inline SVG.
-            </svg>
-            <div className="screen-label">S C R E E N</div>
-            </div>
-            {Object.keys(rows).map((rowLabel) => (
-                <div key={rowLabel} className="row">
-                <div className="row-label">{rowLabel}</div>
-                {rows[rowLabel].map((seat) => (
-                <button className="seat" key={seat.id} onClick={() => handleSeatSelect(seat)} style={{backgroundColor:seat.available? "green" : "red"}} data-number={seat.seatNr}>
-                </button>
-                ))}
-            </div>
-            ))}
-            </div>
+          </svg>
+          <div className="screen-label">S C R E E N</div>
         </div>
-    );
+        {Object.keys(rows).map((rowLabel) => (
+          <div key={rowLabel} className="row">
+            <div className="row-label">{rowLabel}</div>
+            {rows[rowLabel].map((seat) => (
+              <button
+                className="seat"
+                key={seat.id}
+                onClick={() => handleSeatSelect(seat)}
+                style={{ backgroundColor: seat.available ? "green" : "red" }}
+                data-number={seat.seatNr}
+              ></button>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

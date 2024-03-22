@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllMovies, getAllTheaters, handleShow } from "../services/apiFacade";
+import { Show } from "../models/interfaces";
 
 export default function ShowForm(){
     const [movies, setMovies] = useState([]);
@@ -14,17 +16,17 @@ export default function ShowForm(){
       });
     
 
-    useEffect(() => {
-        getAllMovies().then((data) => {
-          setMovies(data);
-        });
-    }, []);
+  useEffect(() => {
+    getAllMovies().then((data) => {
+      setMovies(data);
+    });
+  }, []);
 
-    useEffect(() => {
-        getAllTheaters().then((data) => {
-          setTheaters(data);
-        });
-    }, []);
+  useEffect(() => {
+    getAllTheaters().then((data) => {
+      setTheaters(data);
+    });
+  }, []);
 
       const handleSubmit = async (event) => {
         event.preventDefault();
@@ -49,21 +51,21 @@ export default function ShowForm(){
     }
 
 
-    const showFeedBack = (message, success) => {
-        const div = document.createElement("div");
-        div.textContent = message;
-        div.style.position = "fixed";
-        div.style.alignSelf = "center";
-        div.style.transform = "translate(600%, 0%)";
-        div.style.padding = "20px";
-        div.style.borderRadius = "5px";
-        div.style.color = "white";
-        div.style.backgroundColor = success ? "green" : "red";
-        document.body.appendChild(div);
-        setTimeout(() => {
-          document.body.removeChild(div);
-        }, 5000);
-      }
+  const showFeedBack = (message, success) => {
+    const div = document.createElement("div");
+    div.textContent = message;
+    div.style.position = "fixed";
+    div.style.alignSelf = "center";
+    div.style.transform = "translate(600%, 0%)";
+    div.style.padding = "20px";
+    div.style.borderRadius = "5px";
+    div.style.color = "white";
+    div.style.backgroundColor = success ? "green" : "red";
+    document.body.appendChild(div);
+    setTimeout(() => {
+      document.body.removeChild(div);
+    }, 5000);
+  };
 
       const handleChange = (event) => {
         try {
